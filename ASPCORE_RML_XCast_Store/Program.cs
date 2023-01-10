@@ -30,7 +30,9 @@ namespace ASPCORE_RML_XCast_Store
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services
+                .AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
 
             // -----CUSTOM SERVICES-----
 
