@@ -61,6 +61,11 @@ namespace RMLXCast.Web.Controllers
         [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
+            if (_signInManager.IsSignedIn(User))
+            {
+                // TODO: Redirect to account panel
+                return Ok("You are already logged in!");
+            }
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
@@ -71,11 +76,11 @@ namespace RMLXCast.Web.Controllers
             if (ModelState.IsValid)
             {
                 var result = await
-                    _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+                    _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
 
                 if (result.Succeeded)
                 {
-                    logger.LogInformation($"User {model.Email} logged in!");
+                    logger.LogInformation($"User {model.UserName} logged in!");
                     var returnUrl = model.ReturnUrl;
                     if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     {
@@ -88,7 +93,7 @@ namespace RMLXCast.Web.Controllers
                 }
                 else
                 {
-                    logger.LogWarning($"{model.Email} failed to login on try!");
+                    logger.LogWarning($"{model.UserName} failed to login on try!");
                     ModelState.AddModelError("", "Неправильный логин/пароль");
                 }
             }

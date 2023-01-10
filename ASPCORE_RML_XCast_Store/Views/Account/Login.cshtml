@@ -1,29 +1,40 @@
-﻿<div class="login-register-area pt-95 pb-100">
+﻿@using RMLXCast.Web.ViewModels.Account;
+@model LoginViewModel
+
+
+@{
+    ViewBag.Title = "X-Cast Авторизация";
+}
+
+<div class="login-register-area pt-95 pb-100">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12 col-md-12">
                         <div class="login-register-wrap mr-70 ml-70">
-                            <h3><i class="fa fa-user-o"></i> Login</h3>
+                            <h3><i class="fa fa-user-o"></i> Авторизация</h3>
                             <div class="login-register-form">
-                                <form action="#">
+                                <form asp-action="Login" asp-controller="Account" method="post">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                                     <div class="sin-login-register">
-                                        <label>Адрес<span>*</span></label>
-                                        <input type="text" name="user-name">
-                                    </div>
+                                        <label asp-for="UserName">Логин <span>*</span></label>
+                                        <input asp-for="UserName"/>
+                                        <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
                                     <div class="sin-login-register">
-                                        <label>Password <span>*</span></label>
-                                        <input type="password" name="password">
-                                    </div>
+                                        <label asp-for="Password">Пароль <span>*</span></label>
+                                        <input asp-for="Password"/>
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
                                     <div class="login-register-btn-remember">
                                         <div class="login-register-btn">
-                                            <button type="submit">Log in</button>
+                                            <button type="submit">Вход</button>
                                         </div>
                                         <div class="login-register-remember">
-                                            <input type="checkbox">
-                                            <label>Remember me</label>
+                                            <input asp-for="RememberMe">
+                                            <label>Запомнить меня</label>
                                         </div>
                                     </div>
-                                    <a href="#">Lost your password?</a>
+                                    <a href="#">Забыли свой пароль?</a>
                                 </form>
                             </div>
                         </div>
@@ -52,3 +63,8 @@
                 </div>
             </div>
         </div>
+
+
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

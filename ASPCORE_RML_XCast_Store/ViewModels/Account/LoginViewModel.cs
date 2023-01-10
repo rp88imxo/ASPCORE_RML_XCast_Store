@@ -4,11 +4,11 @@ namespace RMLXCast.Web.ViewModels.Account
 {
     public class LoginViewModel
     {
-        [Required]
-        [Display(Name = "Email")]
-        public string Email { get; set; }
+        [Required(ErrorMessage = "{0} необходимо к заполнению.")]
+        [Display(Name = "Имя пользователя")]
+        public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "{0} необходимо к заполнению.")]
         [Display(Name = "Пароль")]
         [DataType(DataType.Password)]
         public string Password { get; set; }

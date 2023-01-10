@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>X-Cast Магазин</title>
+    <title>@ViewBag.Title</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="~/toro/css/plugins/fullpage.css">
     <link rel="stylesheet" href="~/toro/css/plugins/jquery-ui.css">
     <link rel="stylesheet" href="~/toro/css/plugins/select2.min.css">
-    <link rel="stylesheet" href="~/toro/css/style.css">
+    <link rel="stylesheet" href="~/toro/css/style.css" asp-append-version="true">
 </head>
 <body>
 
@@ -346,6 +346,5 @@
         }
         google.maps.event.addDomListener(window, 'load', init);
     </script>
-
 </body>
 </html>
