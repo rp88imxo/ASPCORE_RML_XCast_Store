@@ -1,0 +1,93 @@
+﻿@using RMLXCast.Web.ViewModels.Product;
+@model CreateProductViewModel
+
+@{
+    ViewBag.Title = "X-Cast Создание товара";
+}
+
+<!--app-content open-->
+<div class="main-content app-content mt-0">
+    <div class="side-app">
+        <!-- CONTAINER -->
+        <div class="main-container container-fluid">
+            <!-- PAGE-HEADER -->
+            <div class="page-header">
+                <h1 class="page-title">Панель добавления товара</h1>
+            </div>
+            <!-- PAGE-HEADER END -->
+            <!--MAIN CONTENT START-->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Billing Information</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">First Name <span class="text-red">*</span></label>
+                                <input type="text" class="form-control" placeholder="First name">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Last Name <span class="text-red">*</span></label>
+                                <input type="text" class="form-control" placeholder="Last name">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Company Name <span class="text-red">*</span></label>
+                                <input type="text" class="form-control" placeholder="Company name">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Email address <span class="text-red">*</span></label>
+                                <input type="email" class="form-control" placeholder="Email" autocomplete="username">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Country <span class="text-red">*</span></label>
+                                <select class="form-control form-select select2" data-bs-placeholder="Select">
+                                    <option label="Select">Country</option>
+                                    <option value="1">Germany</option>
+                                    <option value="2">Canada</option>
+                                    <option value="3">Usa</option>
+                                    <option value="4">Aus</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Address <span class="text-red">*</span></label>
+                                <input type="text" class="form-control" placeholder="Home Address">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">City <span class="text-red">*</span></label>
+                                <input type="text" class="form-control" placeholder="City">
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Postal Code <span class="text-red">*</span></label>
+                                <input type="number" class="form-control" placeholder="ZIP Code">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--MAIN CONTENT END-->
+
+        </div>
+        <!-- CONTAINER END -->
+    </div>
+</div>
+<!--app-content close-->
+@section Scripts
+    {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

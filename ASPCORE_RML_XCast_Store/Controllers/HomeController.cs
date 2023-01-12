@@ -23,6 +23,11 @@ namespace RMLXCast.Web.Controllers
             return View();
         }
 
+        public IActionResult ErrorNotFound()
+        {
+            return NotFound("Page is not found");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

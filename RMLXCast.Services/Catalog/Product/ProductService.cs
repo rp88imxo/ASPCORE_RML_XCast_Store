@@ -36,20 +36,37 @@ namespace RMLXCast.Services.Catalog
             {
                 product = await products
                      .Include(x => x.Stocks)
+                     .Include(x => x.ProductCategories)
                 .FirstOrDefaultAsync(x => x.Id == productId);
             }
             else
             {
                 product = await products
+                .Include(x => x.ProductCategories)
                 .FirstOrDefaultAsync(x => x.Id == productId);
             }
 
             return product;
         }
 
-        public async Task<IEnumerable<Product>> GetAllProducts()
+        public async Task<IList<Product>> GetAllProductsAsync()
         {
             return await dbContext.Products.ToListAsync();
+        }
+
+        public async Task<IList<Product>> GetPagedProductsAsync(int pageNumber, int pageSize)
+        {
+            return await dbContext.Products
+                .Include(x => x.Stocks)
+                .Include(x => x.ProductCategories)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task<int> GetTotalProductCountAsync()
+        {
+            return await dbContext.Products.CountAsync();
         }
 
         public async Task UpdateProductAsync(Product product)

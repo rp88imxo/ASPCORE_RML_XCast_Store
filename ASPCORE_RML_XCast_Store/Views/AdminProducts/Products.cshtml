@@ -1,16 +1,88 @@
-﻿  <!--app-content open-->
+﻿@using PagedList.Core.Mvc;
+@using RMLXCast.Web.ViewModels.Product;
+@model ProductsPagedViewModel
+
+@{
+    ViewBag.Title = "X-Cast Управление товарами";
+   
+    var pagedListOptions = PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext;
+    pagedListOptions.LinkToNextPageFormat = "Следующая";
+    pagedListOptions.LinkToPreviousPageFormat = "Предыдущая";
+  
+}
+ 
+
+<!--app-content open-->
 <div class="main-content app-content mt-0">
     <div class="side-app">
         <!-- CONTAINER -->
         <div class="main-container container-fluid">
             <!-- PAGE-HEADER -->
             <div class="page-header">
-                <h1 class="page-title">Товары</h1>
+                <h1 class="page-title">Панель управления товарами</h1>
             </div>
             <!-- PAGE-HEADER END -->
 
             <!--MAIN CONTENT START-->
 
+            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Все товары</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                            <table class="table table-bordered border text-nowrap mb-0" id="rml-datatable-products">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Название товара</th>
+                                                        <th>Краткое описание</th>
+                                                        <th>Цена</th>
+                                                        <th>Количество</th>
+                                                        <th>Товар опупликован?</th>
+                                                    <th name="bstable-actions">Actions</th></tr>
+                                                </thead>
+                                                <tbody>
+
+                                    @foreach (var product in Model.ViewProductViewModels)
+                                    {
+                                        <tr>
+                                            <td>@product.Name</td>
+                                            <td>@product.ShortDescription</td>
+                                            <td>@product.Price.ToString("N0")</td>
+                                            <td>@product.Stock</td>
+                                            <td>@(product.Published ? "Опубликован" : "Не опубликован")</td>
+                                           
+                                            <td name="bstable-actions">
+                                                <form method="post" id="deleteForm" asp-action="DeleteProduct" asp-controller="AdminProducts">
+                                                    <input hidden name="id" value="@product.Id" />
+                                                    <input hidden name="page" value="@Model.PageNumber" />
+                                                    </form>
+                                                <div class="btn-list">
+                                                    <a class="btn btn-sm btn-primary" asp-action="EditProduct" asp-controller="AdminProducts" asp-route-id="@product.Id"><span class="fe fe-edit"> </span></a>
+                                                    <button form="deleteForm" class="btn btn-sm btn-danger" type="submit"><span class="fe fe-trash-2"> </span></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                            </table>
+                                        </div>
+                                      <a class="btn btn-primary" asp-action="CreateProduct" asp-controller="AdminProducts"> Добавить товар</a>                       
+                                    </div>
+                                </div>
+
+                <pager class="pager-container" list="@Model.ViewProductViewModels" options="@pagedListOptions" asp-action="Products" asp-controller="AdminProducts" />
+                            </div>
+
+            @*@foreach (var viewProduct in Model.ViewProductViewModels)
+            {
+                <p>
+                    @viewProduct.Name - @viewProduct.ShortDescription - @viewProduct.Price
+                </p>
+            }*@
+            
+            
             <!--MAIN CONTENT END-->
 
         </div>
@@ -20,5 +92,20 @@
 <!--app-content close-->
 @section Scripts{
     @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <!-- DATA TABLE JS-->
+    <script src="~/sash/plugins/datatable/js/jquery.dataTables.min.js"></script>
+    <script src="~/sash/plugins/datatable/js/dataTables.bootstrap5.js"></script>
+    <script src="~/sash/plugins/datatable/js/dataTables.buttons.min.js"></script>
+    <script src="~/sash/plugins/datatable/js/buttons.bootstrap5.min.js"></script>
+    <script src="~/sash/plugins/datatable/js/jszip.min.js"></script>
+    <script src="~/sash/plugins/datatable/pdfmake/pdfmake.min.js"></script>
+    <script src="~/sash/plugins/datatable/pdfmake/vfs_fonts.js"></script>
+    <script src="~/sash/plugins/datatable/js/buttons.html5.min.js"></script>
+    <script src="~/sash/plugins/datatable/js/buttons.print.min.js"></script>
+    <script src="~/sash/plugins/datatable/js/buttons.colVis.min.js"></script>
+    <script src="~/sash/plugins/datatable/dataTables.responsive.min.js"></script>
+    <script src="~/sash/plugins/datatable/responsive.bootstrap5.min.js"></script>
+    <script charset="windows-1251" src="~/sash/js/table-data.js"></script>
 
             }

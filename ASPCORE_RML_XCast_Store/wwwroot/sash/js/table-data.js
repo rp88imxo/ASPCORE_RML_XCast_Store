@@ -9,6 +9,18 @@ $(function(e) {
         }
     });
 
+    //______Basic Data Table
+    $('#rml-datatable-products').DataTable({
+        paging: false,
+        language: {
+            searchPlaceholder: 'Поиск...',
+            sSearch: '',
+            zeroRecords: 'Ничего не найдено!',
+            info: '',
+            infoEmpty: '',
+            infoFiltered: '',
+        }
+    });
 
     //______Basic Data Table
     $('#responsive-datatable').DataTable({

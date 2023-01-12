@@ -63,7 +63,7 @@ namespace ASPCORE_RML_XCast_Store
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.MapFallbackToController("Error", "Home");
+            app.MapFallbackToController("ErrorNotFound", "Home");
 
             app.Run();
         }

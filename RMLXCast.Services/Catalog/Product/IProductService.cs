@@ -8,6 +8,8 @@ namespace RMLXCast.Services.Catalog
         Task<Product?> GetProductByIdAsync(int productId, bool includeStocks);
         Task UpdateProductAsync(Product product);
         Task<bool> DeleteProductByIdAsync(int productId);
-        Task<IEnumerable<Product>> GetAllProducts();
+        Task<IList<Product>> GetAllProductsAsync();
+        Task<IList<Product>> GetPagedProductsAsync(int pageNumber, int pageSize);
+        Task<int> GetTotalProductCountAsync();
     }
 }
