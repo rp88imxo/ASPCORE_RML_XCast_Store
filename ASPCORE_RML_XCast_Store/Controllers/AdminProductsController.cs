@@ -24,6 +24,7 @@ namespace RMLXCast.Web.Controllers
             return View();
         }
 
+        // TEST ONE
         [HttpGet]
         [Route("{controller}/api/{action}")]
         public async Task<IActionResult> GetAllProducts()
@@ -33,6 +34,7 @@ namespace RMLXCast.Web.Controllers
             return Ok(products);
         }
 
+        // TEST ONE
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] ProductViewModel productViewModel)
         {
@@ -62,7 +64,62 @@ namespace RMLXCast.Web.Controllers
 
             await productService.CreateProductAsync(product);
 
+            productViewModel.Id = product.Id;
+
             return Ok(productViewModel);
+        }
+
+        // TEST ONE
+        [HttpPost]
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductViewModel productViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Product Model Is not valid!");
+            }
+
+            var product = await productService.GetProductByIdAsync(productViewModel.Id, true);
+
+            if (product == null)
+            {
+                return BadRequest("Missing Product!");
+            }
+
+            product.Name = productViewModel.Name;
+            product.ShortDescription= productViewModel.ShortDescription;
+            product.Price = productViewModel.Price;
+            product.Published = productViewModel.Published;
+            product.UpdatedOnUtc = DateTime.UtcNow;
+            var stock = product.Stocks.FirstOrDefault();
+            if (stock != null)
+            {
+                stock.StockQuantity = productViewModel.StockQuantity;
+            }
+
+            await productService.UpdateProductAsync(product);
+
+            return Ok(productViewModel);
+        }
+
+        // TEST ONE
+        [HttpDelete]
+        public async Task<IActionResult> DeleteProduct(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Product Model Is not valid!");
+            }
+
+            var result = await  productService.DeleteProductByIdAsync(id);
+
+            if (result)
+            {
+                return Ok("Successfully deleted");
+            }
+            else
+            {
+                return BadRequest("Failed to delete!");
+            }
         }
     }
 }

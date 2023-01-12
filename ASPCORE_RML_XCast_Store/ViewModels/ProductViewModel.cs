@@ -10,10 +10,10 @@ namespace RMLXCast.Web.ViewModels
         [MaxLength(48)]
         public string Name { get; set; }
        
-        [MaxLength(128)]
+        [MaxLength(512)]
         public string? ShortDescription { get; set; }
 
-        [MaxLength(256)]
+        [MaxLength(2048)]
         public string? FullDescription { get; set; }
        
         [MaxLength(128)]

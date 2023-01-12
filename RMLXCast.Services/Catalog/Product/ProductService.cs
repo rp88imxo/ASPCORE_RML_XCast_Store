@@ -26,9 +26,25 @@ namespace RMLXCast.Services.Catalog
             await dbContext.SaveChangesAsync();
         }
 
-        public async Task<Product?> GetProductByIdAsync(int productId)
+        public async Task<Product?> GetProductByIdAsync(int productId, bool includeStocks)
         {
-            return await dbContext.Products.FirstOrDefaultAsync(x => x.Id == productId);
+            var products = dbContext.Products;
+
+            Product? product;
+
+            if (includeStocks)
+            {
+                product = await products
+                     .Include(x => x.Stocks)
+                .FirstOrDefaultAsync(x => x.Id == productId);
+            }
+            else
+            {
+                product = await products
+                .FirstOrDefaultAsync(x => x.Id == productId);
+            }
+
+            return product;
         }
 
         public async Task<IEnumerable<Product>> GetAllProducts()
@@ -44,7 +60,7 @@ namespace RMLXCast.Services.Catalog
 
         public async Task<bool> DeleteProductByIdAsync(int productId)
         {
-            var product = await GetProductByIdAsync(productId);
+            var product = await GetProductByIdAsync(productId, false);
             if (product == null)
             {
                 return false;
@@ -57,7 +73,5 @@ namespace RMLXCast.Services.Catalog
         }
 
         #endregion
-
-
     }
 }

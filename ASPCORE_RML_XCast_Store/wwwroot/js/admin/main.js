@@ -4,18 +4,38 @@ const { createApp } = Vue
 const app = createApp({
     data() {
         return {
+            objectIndex: 0,
+            id: 0,
             loading: false,
             productModel: {
+                id: 0,
                 name: "Product Name",
                 shortDescription: "Product Short Description",
                 price: 25,
                 published: false,
                 stockQuantity: 1000
-                },
+            },
             products: []
         }
     },
+    mounted() {
+        this.getProducts();
+    },
     methods: {
+        getProduct(id) {
+            this.loading = true;
+            axios.get('/AdminProducts/api/getProduct/' + id)
+                .then(res => {
+                    console.log(res);
+                    var product = res.data;
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+                .then(() => {
+                    this.loading = false;
+                });
+        },
         getProducts() {
             this.loading = true;
             axios.get('/AdminProducts/api/GetAllProducts')
@@ -43,7 +63,46 @@ const app = createApp({
                 .then(() => {
                     this.loading = false;
                 });
-        }
+        },
+        editProduct(product, index) {
+            this.objectIndex = index;
+            this.productModel = {
+                id: product.id,
+                name: product.name,
+                shortDescription: product.shortDescription,
+                price: product.price,
+                published: product.published,
+                stockQuantity: product.stockQuantity
+            };
+        },
+        updateProduct() {
+            this.loading = true;
+            axios.post('/AdminProducts/UpdateProduct', this.productModel)
+                .then(res => {
+                    console.log(res);
+                    this.products.splice(this.objectIndex, 1, res.data);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+                .then(() => {
+                    this.loading = false;
+                });
+        },
+        deleteProduct(id, index) {
+            this.loading = true;
+            axios.delete('/AdminProducts/DeleteProduct/' + id)
+                .then(res => {
+                    console.log(res)
+                    this.products.splice(index, 1);
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+                .then(() => {
+                    this.loading = false;
+                });
+        },
     },
     computed: {
         formatPrice: function () {
