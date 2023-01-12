@@ -31,6 +31,11 @@ namespace RMLXCast.Services.Catalog
             return await dbContext.Products.FirstOrDefaultAsync(x => x.Id == productId);
         }
 
+        public async Task<IEnumerable<Product>> GetAllProducts()
+        {
+            return await dbContext.Products.ToListAsync();
+        }
+
         public async Task UpdateProductAsync(Product product)
         {
             dbContext.Products.Update(product);

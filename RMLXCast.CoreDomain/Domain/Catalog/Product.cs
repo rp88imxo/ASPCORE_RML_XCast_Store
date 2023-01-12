@@ -27,7 +27,7 @@ namespace RMLXCast.Core.Domain.Catalog
         public DateTime CreatedOnUtc { get; set; }
         public DateTime UpdatedOnUtc { get; set; }
 
-        public IEnumerable<Stock> Stocks { get; set; }
-        public IEnumerable<OrderItem> OrderItems { get; set; }
+        public ICollection<Stock> Stocks { get; set; } = new List<Stock>();
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

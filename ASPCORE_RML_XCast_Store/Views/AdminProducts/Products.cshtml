@@ -1,29 +1,47 @@
 ﻿  <!--app-content open-->
-            <div class="main-content app-content mt-0">
-                <div class="side-app">
+<div class="main-content app-content mt-0">
+    <div class="side-app">
 
-                    <!-- CONTAINER -->
-                    <div class="main-container container-fluid">
+        <!-- CONTAINER -->
+        <div class="main-container container-fluid">
 
-                        <!-- PAGE-HEADER -->
-                        <div class="page-header">
-                            <h1 class="page-title">Товары</h1>
-                        </div>
-                        <!-- PAGE-HEADER END -->
-
-                        <div id="app">
-                            <input type="number" v-model="price"/>
-                        </div>
-                        
-                    </div>
-                    <!-- CONTAINER END -->
-                </div>
+            <!-- PAGE-HEADER -->
+            <div class="page-header">
+                <h1 class="page-title">Товары</h1>
             </div>
-            <!--app-content close-->
+            <!-- PAGE-HEADER END -->
+            <div id="app">
 
-            @section Scripts{
 
-            <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-            <script src="~/js/admin/main.js"></script>
+                <div>
+                    <input v-model="productModel.name" />
+                    <input v-model="productModel.shortDescription" />
+                    <input type="number" v-model="productModel.price" />
+                    <label>Publish</label>
+                    <input type="checkbox" v-model="productModel.published" />
+                    <input type="number" v-model="productModel.stockQuantity" />
+                    <button @@click="createProduct">Create Product</button>
+                </div>
+
+                <hr />
+
+                 <button v-on:click="getProducts">Get Products</button>
+                <br />
+                <div>
+                    <p v-for="product in products">
+                        {{product.id}} - {{product.name}} - {{product.price}} - {{product.published}} - {{product.stockQuantity}}
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        <!-- CONTAINER END -->
+    </div>
+</div>
+<!--app-content close-->
+@section Scripts{
+    <script src="~/lib/vue/vue.global.js"></script>
+    <script src="~/lib/axios/axios.min.js"></script>
+    <script type="module" src="~/js/admin/main.js"></script>
 
             }
