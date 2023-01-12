@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RMLXCast.Core.Domain.Catalog;
 using RMLXCast.Services.Catalog;
-using RMLXCast.Web.ViewModels;
+using RMLXCast.Web.ViewModels.Product;
 using RMLXCast.Web.ViewModelsFactories.ProductFactory;
 
 namespace RMLXCast.Web.Controllers
@@ -24,9 +24,8 @@ namespace RMLXCast.Web.Controllers
             return View();
         }
 
-        // TEST ONE
+       
         [HttpGet]
-        [Route("{controller}/api/{action}")]
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await productService.GetAllProducts();
@@ -34,7 +33,7 @@ namespace RMLXCast.Web.Controllers
             return Ok(products);
         }
 
-        // TEST ONE
+       
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] ProductViewModel productViewModel)
         {

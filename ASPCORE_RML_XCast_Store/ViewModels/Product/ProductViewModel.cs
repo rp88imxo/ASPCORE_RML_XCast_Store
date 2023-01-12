@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RMLXCast.Web.ViewModels
+namespace RMLXCast.Web.ViewModels.Product
 {
     public class ProductViewModel
     {
@@ -9,13 +9,13 @@ namespace RMLXCast.Web.ViewModels
         [Required]
         [MaxLength(48)]
         public string Name { get; set; }
-       
+
         [MaxLength(512)]
         public string? ShortDescription { get; set; }
 
         [MaxLength(2048)]
         public string? FullDescription { get; set; }
-       
+
         [MaxLength(128)]
         public string? AdminComment { get; set; }
 

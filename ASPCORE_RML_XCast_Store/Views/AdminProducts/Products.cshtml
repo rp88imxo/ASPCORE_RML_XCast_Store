@@ -1,50 +1,24 @@
 ﻿  <!--app-content open-->
 <div class="main-content app-content mt-0">
     <div class="side-app">
-
         <!-- CONTAINER -->
         <div class="main-container container-fluid">
-
             <!-- PAGE-HEADER -->
             <div class="page-header">
                 <h1 class="page-title">Товары</h1>
             </div>
             <!-- PAGE-HEADER END -->
-            <div id="app">
 
+            <!--MAIN CONTENT START-->
 
-                <div>
-                    <input v-model="productModel.name" />
-                    <input v-model="productModel.shortDescription" />
-                    <input type="number" v-model="productModel.price" />
-                    <label>Publish</label>
-                    <input type="checkbox" v-model="productModel.published" />
-                    <input type="number" v-model="productModel.stockQuantity" />
-                    <button @@click="createProduct" v-if="!productModel.id">Create Product</button>
-                    <button @@click="updateProduct" v-else>Update Product</button>
-                </div>
+            <!--MAIN CONTENT END-->
 
-                <hr />
-
-                <br />
-                <div>
-                    <p v-for="(product, index) in products">
-                        {{product.id}} - {{product.name}} - {{product.price}} - {{product.published}} - {{product.stockQuantity}}
-                        <button @@click="editProduct(product, index)">Edit</button>
-                        <button @@click="deleteProduct(product.id, index)">Delete</button>
-                    </p>
-                </div>
-
-            </div>
         </div>
         <!-- CONTAINER END -->
     </div>
 </div>
 <!--app-content close-->
-
 @section Scripts{
-    <script src="~/lib/vue/vue.global.js"></script>
-    <script src="~/lib/axios/axios.min.js"></script>
-    <script type="module" src="~/js/admin/main.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 
             }

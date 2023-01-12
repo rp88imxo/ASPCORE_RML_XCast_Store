@@ -34,6 +34,15 @@ namespace RMLXCast.Database
             builder.Entity<Product>()
                     .Property(x => x.Price)
                     .HasColumnType("decimal(18,4)");
+
+            builder.Entity<ProductCategory>()
+                .HasData(new ProductCategory 
+                {  
+                    Id= 1,
+                    Name = "Все",
+                    Description = "Все товары",
+                    Editable= false
+                });
         }
     }
 }

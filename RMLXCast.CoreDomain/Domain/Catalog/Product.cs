@@ -29,5 +29,7 @@ namespace RMLXCast.Core.Domain.Catalog
 
         public ICollection<Stock> Stocks { get; set; } = new List<Stock>();
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+
+        public ICollection<ProductCategory> ProductCategories { get; set; } = new List<ProductCategory>();
     }
 }
