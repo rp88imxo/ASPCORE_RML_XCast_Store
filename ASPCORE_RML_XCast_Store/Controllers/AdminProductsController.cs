@@ -40,6 +40,56 @@ namespace RMLXCast.Web.Controllers
 			return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct(CreateProductViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                if (viewModel.SelectedProductCategoriesIds.Count == 0)
+                {
+                    ModelState.AddModelError("", "Товар должен иметь хотя бы одну категорию.");
+
+                    await productViewModelFactory.UpdateCreateProductViewModelAsync(viewModel);
+                    return View(viewModel);
+                }
+
+                var product = new Product()
+                {
+                    Name = viewModel.Name,
+                    ShortDescription = viewModel.ShortDescription,
+                    FullDescription = viewModel.FullDescription,
+                    AdminComment = viewModel.AdminComment,
+                    AllowCustomerReviews = viewModel.AllowCustomerReviews,
+                    Price = viewModel.Price,
+                    OrderMinimumQuantity = viewModel.OrderMinimumQuantity,
+                    OrderMaximumQuantity = viewModel.OrderMaximumQuantity,
+                    Published = viewModel.Published,
+                    CreatedOnUtc = DateTime.UtcNow,
+                    UpdatedOnUtc= DateTime.UtcNow,
+                };
+
+                product.Stocks.Add(new Stock
+                {
+                    StockQuantity = viewModel.Stock
+                });
+
+                
+
+
+                foreach (var selectedCategory in viewModel.SelectedProductCategoriesIds)
+                {
+                    product.ProductCategories.Add(new ProductCategory {Id= selectedCategory });
+                }
+
+                await productService.CreateProductAsync(product);
+
+                return RedirectToAction("Products", "AdminProducts");
+            }
+
+            await productViewModelFactory.UpdateCreateProductViewModelAsync(viewModel);
+            return View(viewModel);
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> EditProduct(int? id)

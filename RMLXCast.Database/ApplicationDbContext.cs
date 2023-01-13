@@ -24,11 +24,12 @@ namespace RMLXCast.Database
 
         public DbSet<ProductCategory> ProductCategories { get; set; }
 
+        public DbSet<ProductProductCategory> ProductProductCategory { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            Database.EnsureDeleted();
-            Database.EnsureCreated();
+           
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

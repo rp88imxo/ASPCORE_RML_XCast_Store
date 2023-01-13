@@ -43,6 +43,19 @@ namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
             return model;
         }
 
+        public async Task UpdateCreateProductViewModelAsync(CreateProductViewModel viewModel)
+        {
+            var categories = await productCategoryService.GetAllProductCategoriesAsync();
+
+            viewModel.AllProductCategoriesSelectListItems = categories
+                .Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                })
+                .ToList();
+        }
+
         public async Task<CreateProductViewModel> GetCreateProductViewModelAsync()
         {
             var categories = await productCategoryService.GetAllProductCategoriesAsync();
@@ -51,7 +64,13 @@ namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
             {
                 Stock = 1000,
                 Published = true,
-                AllProductCategories = categories
+                AllProductCategoriesSelectListItems = categories
+                .Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                })
+                .ToList()
             };
         }
 

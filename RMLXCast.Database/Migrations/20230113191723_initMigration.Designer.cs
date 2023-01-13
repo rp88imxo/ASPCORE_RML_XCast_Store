@@ -12,8 +12,8 @@ using RMLXCast.Database;
 namespace RMLXCast.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230112192754_addedCategory")]
-    partial class addedCategory
+    [Migration("20230113191723_initMigration")]
+    partial class initMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -240,7 +240,7 @@ namespace RMLXCast.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategory");
+                    b.ToTable("ProductCategories");
 
                     b.HasData(
                         new

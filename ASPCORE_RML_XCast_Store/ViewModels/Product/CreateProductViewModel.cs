@@ -1,4 +1,5 @@
-﻿using RMLXCast.Core.Domain.Catalog;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using RMLXCast.Core.Domain.Catalog;
 using System.ComponentModel.DataAnnotations;
 
 namespace RMLXCast.Web.ViewModels.Product
@@ -29,10 +30,10 @@ namespace RMLXCast.Web.ViewModels.Product
 		public decimal Price { get; set; }
 
 		[Display(Name = "Минимальное количество товара для оформления заказа")]
-		public int OrderMinimumQuantity { get; set; } = 0;
+		public int OrderMinimumQuantity { get; set; } = 1;
 
 		[Display(Name = "Максимальное количество товара для оформления заказа")]
-		public int OrderMaximumQuantity { get; set; } = 25;
+		public int OrderMaximumQuantity { get; set; } = 999;
 
 		[Display(Name = "Опубликован ли товар")]
 		public bool Published { get; set; }
@@ -41,9 +42,9 @@ namespace RMLXCast.Web.ViewModels.Product
 		public int Stock { get; set; }
 
         [Display(Name = "Изображения товара")]
-        public IFormFileCollection? ProductImages { get; set; }
+        public List<IFormFile>? ProductImages { get; set; } = new List<IFormFile>();
 
-        public IList<ProductCategory> AllProductCategories { get; set; } = new List<ProductCategory>();
-        public IList<ProductCategory> SelectedProductCategories { get; set; } = new List<ProductCategory>();
+        public IList<SelectListItem> AllProductCategoriesSelectListItems { get; set; } = new List<SelectListItem>();
+        public IList<int> SelectedProductCategoriesIds { get; set; } = new List<int>();
 	}
 }

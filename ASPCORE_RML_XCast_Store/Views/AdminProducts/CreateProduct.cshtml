@@ -3,6 +3,7 @@
 
 @{
     ViewBag.Title = "X-Cast Создание товара";
+    
 }
 
 <!--app-content open-->
@@ -23,6 +24,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <label asp-for="Name" class="form-label">Название товара<span class="text-red">*</span></label>
@@ -62,36 +64,61 @@
                          
 
                           <div class="col-md-12">
-                                <div class="form-group">
-                                    <label asp-for="OrderMinimumQuantity" class="form-label">Минимальное количество единиц товара для оформления заказа<span class="text-red">*</span></label>
-                                    <input type="number" asp-for="OrderMinimumQuantity" class="form-control"/>
+                                <div class="form-group" style="margin-right: 80%">
+                                    <label asp-for="OrderMinimumQuantity" class="form-label">Минимальное количество единиц товара для оформления заказа</label>
+                                    <input type="number" asp-for="OrderMinimumQuantity" class="form-control" />
+                                    <span asp-validation-for="OrderMinimumQuantity" class="text-danger"></span>
                                 </div>
-                                <div class="form-group">
-                                    <label asp-for="OrderMaximumQuantity" class="form-label">Максимальное количество единиц товара для оформления заказа<span class="text-red">*</span></label>
+                                <div class="form-group" style="margin-right: 80%">
+                                    <label asp-for="OrderMaximumQuantity" class="form-label">Максимальное количество единиц товара для оформления заказа</label>
                                     <input type="number" asp-for="OrderMaximumQuantity" class="form-control" />
+                                    <span asp-validation-for="OrderMaximumQuantity" class="text-danger"></span>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label class="form-label" asp-for="Published">Товар опубликован</label>
-                                    <input type="checkbox" asp-for="Published" class="form-control" />
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" asp-for="Published">
+                                        <span class="custom-control-label">Товар опубликован?</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                             <div class="col-sm-3 col-md-3">
+                                <div class="form-group">
+                                    <label asp-for="Stock" class="form-label">Количество товара</label>
+                                    <input type="number" asp-for="Stock" class="form-control" />
+                                    <span asp-validation-for="Stock" class="text-danger"></span>
                                 </div>
                             </div>
                            
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label" for="SelectedProductCategories">Категории товара</label>
-                                    <select name="SelectedProductCategories" class="form-control form-select select2" data-bs-placeholder="Выбор категорий">
-                                        @foreach (var productCategory in Model.AllProductCategories)
+                                   
+                                    @Html.ListBoxFor(
+                                        model => model.SelectedProductCategoriesIds,
+                                    new MultiSelectList(Model.AllProductCategoriesSelectListItems, "Value", "Text")
+                                    , new {@class = "multi-select", multiple = "multiple", id="ProductCategoriesDropdown"})
+                                    
+                                    @* <select name="SelectedProductCategories" class="form-control form-select select2" data-bs-placeholder="Выбор категорий">
+                                        @foreach (var productCategory in Model.AllProductCategoriesSelectListItems)
                                         {
-                                            <option value="@productCategory">@productCategory.Name</option>
+                                            <option value="@productCategory.Id">@productCategory.Name</option>
                                         }
-                                    </select>
+                                    </select>*@
                                 </div>
                             </div>
-                          
+
+                            <div class="form-group mb-0">
+                                <label class="form-label" for="SelectedProductCategories">Изображения товара</label>
+                                <input id="demo" type="file" asp-for="ProductImages" accept=".jpg, .png, image/jpeg, image/png" multiple class="ff_fileupload_hidden">
+                            </div>
+
                         </div>
+
+                        <button type="submit" class="btn btn-sm btn-primary mt-4 mb-0">Создать товар</button>
                     </div>
                 </div>
             </form>
@@ -115,4 +142,27 @@
             });
  
     </script>
+
+    <!-- FILE UPLOADES JS -->
+    <script src="~/sash/plugins/fileuploads/js/fileupload.js"></script>
+    <script src="~/sash/plugins/fileuploads/js/file-upload.js"></script>
+
+    <!-- INTERNAL File-Uploads Js-->
+    <script src="~/sash/plugins/fancyuploder/jquery.ui.widget.js"></script>
+    <script src="~/sash/plugins/fancyuploder/jquery.fileupload.js"></script>
+    <script src="~/sash/plugins/fancyuploder/jquery.iframe-transport.js"></script>
+    <script src="~/sash/plugins/fancyuploder/jquery.fancy-fileupload.js"></script>
+    <script src="~/sash/plugins/fancyuploder/fancy-uploader.js"></script>
+    
+   @* <!-- SELECT2 JS -->
+    <script src="../assets/plugins/select2/select2.full.min.js"></script>
+    <script src="../assets/js/select2.js"></script>
+
+    <!-- INTERNAL Sumoselect js-->
+    <script src="../assets/plugins/sumoselect/jquery.sumoselect.js"></script>*@
+
+    <!-- MULTI SELECT JS-->
+    <script src="~/sash/plugins/multipleselect/multiple-select.js"></script>
+    <script src="~/sash/plugins/multipleselect/multi-select.js"></script>
+
 }
