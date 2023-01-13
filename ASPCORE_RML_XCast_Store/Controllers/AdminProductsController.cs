@@ -33,9 +33,9 @@ namespace RMLXCast.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateProduct()
+        public async Task<IActionResult> CreateProduct()
         {
-            var model = productViewModelFactory.GetCreateProductViewModel();
+            var model = await productViewModelFactory.GetCreateProductViewModelAsync();
 
 			return View(model);
         }

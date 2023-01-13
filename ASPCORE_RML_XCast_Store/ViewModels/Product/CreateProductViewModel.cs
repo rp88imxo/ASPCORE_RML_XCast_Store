@@ -41,8 +41,9 @@ namespace RMLXCast.Web.ViewModels.Product
 		public int Stock { get; set; }
 
         [Display(Name = "Изображения товара")]
-        public IFormFileCollection? ProductImages { get; set; } 
+        public IFormFileCollection? ProductImages { get; set; }
 
-		public IList<ProductCategory> ProductCategories { get; set; } = new List<ProductCategory>();
+        public IList<ProductCategory> AllProductCategories { get; set; } = new List<ProductCategory>();
+        public IList<ProductCategory> SelectedProductCategories { get; set; } = new List<ProductCategory>();
 	}
 }

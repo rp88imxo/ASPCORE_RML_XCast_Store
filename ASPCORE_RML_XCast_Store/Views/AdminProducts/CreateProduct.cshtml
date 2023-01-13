@@ -16,70 +16,85 @@
             </div>
             <!-- PAGE-HEADER END -->
             <!--MAIN CONTENT START-->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Billing Information</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-6 col-md-6">
-                            <div class="form-group">
-                                <label class="form-label">First Name <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" placeholder="First name">
+            <form method="post" asp-action="CreateProduct" asp-controller="AdminProducts" enctype="multipart/form-data">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Форма товара</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="form-label">Название товара<span class="text-red">*</span></label>
+                                    <input asp-for="Name" type="text" class="form-control">
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 col-md-6">
-                            <div class="form-group">
-                                <label class="form-label">Last Name <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" placeholder="Last name">
+
+                            <div class="col-md-12">
+                                 <div class="form-group">
+                                    <label asp-for="ShortDescription" class="form-label">Краткое описание</label>
+                                    <textarea asp-for="ShortDescription" class="form-control textarea" rows="1"></textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-label">Company Name <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" placeholder="Company name">
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="FullDescription" class="form-label">Полное описание</label>
+                                     <textarea asp-for="FullDescription" id="fullDescription" class="form-control textarea" rows="6"></textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-label">Email address <span class="text-red">*</span></label>
-                                <input type="email" class="form-control" placeholder="Email" autocomplete="username">
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="AdminComment" class="form-label">Заметка для товара (не видна покупателям)</label>
+                                    <textarea asp-for="AdminComment" class="form-control textarea" rows="1"></textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-label">Country <span class="text-red">*</span></label>
-                                <select class="form-control form-select select2" data-bs-placeholder="Select">
-                                    <option label="Select">Country</option>
-                                    <option value="1">Germany</option>
-                                    <option value="2">Canada</option>
-                                    <option value="3">Usa</option>
-                                    <option value="4">Aus</option>
-                                </select>
+                            
+                            <div class="col-sm-3 col-md-3">
+                                <div class="form-group">
+                                    <label asp-for="Price" class="form-label">Цена товара (в рублях) <span class="text-red">*</span></label>
+                                    <input type="number" asp-for="Price" class="form-control"/>
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-label">Address <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" placeholder="Home Address">
+                         
+
+                          <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="OrderMinimumQuantity" class="form-label">Минимальное количество единиц товара для оформления заказа<span class="text-red">*</span></label>
+                                    <input type="number" asp-for="OrderMinimumQuantity" class="form-control"/>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="OrderMaximumQuantity" class="form-label">Максимальное количество единиц товара для оформления заказа<span class="text-red">*</span></label>
+                                    <input type="number" asp-for="OrderMaximumQuantity" class="form-control" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 col-md-6">
-                            <div class="form-group">
-                                <label class="form-label">City <span class="text-red">*</span></label>
-                                <input type="text" class="form-control" placeholder="City">
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" asp-for="Published">Товар опубликован</label>
+                                    <input type="checkbox" asp-for="Published" class="form-control" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 col-md-6">
-                            <div class="form-group">
-                                <label class="form-label">Postal Code <span class="text-red">*</span></label>
-                                <input type="number" class="form-control" placeholder="ZIP Code">
+                           
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="SelectedProductCategories">Категории товара</label>
+                                    <select name="SelectedProductCategories" class="form-control form-select select2" data-bs-placeholder="Выбор категорий">
+                                        @foreach (var productCategory in Model.AllProductCategories)
+                                        {
+                                            <option value="@productCategory">@productCategory.Name</option>
+                                        }
+                                    </select>
+                                </div>
                             </div>
+                          
                         </div>
                     </div>
                 </div>
-            </div>
-
+            </form>
             <!--MAIN CONTENT END-->
 
         </div>
@@ -90,4 +105,14 @@
 @section Scripts
     {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
+    <script>
+     ClassicEditor
+            .create(document.getElementById('fullDescription'))
+            .catch(error => {
+                console.error(error);
+            });
+ 
+    </script>
 }

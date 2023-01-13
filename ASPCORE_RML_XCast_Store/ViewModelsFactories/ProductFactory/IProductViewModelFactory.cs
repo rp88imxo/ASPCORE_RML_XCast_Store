@@ -6,6 +6,6 @@ namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
     public interface IProductViewModelFactory
     {
         ProductsPagedViewModel CreateProductPagedViewModel(ICollection<Product> products, int pageNumber, int pageSize, int totalProducts);
-		CreateProductViewModel GetCreateProductViewModel();
+		Task<CreateProductViewModel> GetCreateProductViewModelAsync();
     }
 }

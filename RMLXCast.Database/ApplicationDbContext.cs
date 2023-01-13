@@ -22,10 +22,13 @@ namespace RMLXCast.Database
 
         public DbSet<Address> Addresses { get; set; }
 
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)

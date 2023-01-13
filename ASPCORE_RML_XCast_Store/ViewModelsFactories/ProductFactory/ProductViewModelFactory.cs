@@ -1,13 +1,26 @@
 ﻿using PagedList.Core;
 using RMLXCast.Core.Domain.Catalog;
+using RMLXCast.Services.Catalog;
+using RMLXCast.Services.Catalog.Category;
 using RMLXCast.Web.ViewModels.Product;
 
 namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
 {
     public class ProductViewModelFactory : IProductViewModelFactory
     {
+        private readonly IProductService productService;
+        private readonly IProductCategoryService productCategoryService;
+
+        public ProductViewModelFactory(
+            IProductService productService,
+            IProductCategoryService productCategoryService)
+        {
+            this.productService = productService;
+            this.productCategoryService = productCategoryService;
+        }
+
         public ProductsPagedViewModel CreateProductPagedViewModel(
-            ICollection<Product> products, 
+            ICollection<Product> products,
             int pageNumber,
             int pageSize,
             int totalProducts)
@@ -15,31 +28,34 @@ namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
             var model = new ProductsPagedViewModel()
             {
                 PageNumber = pageNumber,
-                ViewProductViewModels = new StaticPagedList<ViewProductViewModel>(products.Select(x=> new ViewProductViewModel
+                ViewProductViewModels = new StaticPagedList<ViewProductViewModel>(products.Select(x => new ViewProductViewModel
                 {
-                Id= x.Id,
-                Name= x.Name,
-                ShortDescription = x.ShortDescription,
-                Price= x.Price,
-                ProductCategories= x.ProductCategories,
-                Stock = CalculateTotalStock(x.Stocks),
-                Published= x.Published
+                    Id = x.Id,
+                    Name = x.Name,
+                    ShortDescription = x.ShortDescription,
+                    Price = x.Price,
+                    ProductCategories = x.ProductCategories,
+                    Stock = CalculateTotalStock(x.Stocks),
+                    Published = x.Published
                 }), pageNumber, pageSize, totalProducts)
             };
 
             return model;
         }
 
-		public CreateProductViewModel GetCreateProductViewModel()
-		{
-			return new CreateProductViewModel()
-			{
-				Stock = 1000,
-				Published = true
-			};
-		}
+        public async Task<CreateProductViewModel> GetCreateProductViewModelAsync()
+        {
+            var categories = await productCategoryService.GetAllProductCategoriesAsync();
 
-		private int CalculateTotalStock(ICollection<Stock> stocks)
+            return new CreateProductViewModel()
+            {
+                Stock = 1000,
+                Published = true,
+                AllProductCategories = categories
+            };
+        }
+
+        private int CalculateTotalStock(ICollection<Stock> stocks)
         {
             if (stocks == null)
             {
