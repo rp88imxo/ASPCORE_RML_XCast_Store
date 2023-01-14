@@ -56,6 +56,39 @@ namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
                 .ToList();
         }
 
+        public async Task<EditProductViewModel> GetEditProductViewModel(Product product)
+        {
+            if (product == null)
+            {
+                throw new ArgumentNullException("Product can't be null!");
+            }
+
+            var categories = await productCategoryService.GetAllProductCategoriesAsync();
+
+            var model = new EditProductViewModel()
+            {
+                Id= product.Id,
+                Name = product.Name,
+                ShortDescription = product.ShortDescription,
+                FullDescription = product.FullDescription,
+                AdminComment= product.AdminComment,
+                AllowCustomerReviews= product.AllowCustomerReviews,
+                Price= product.Price,
+                OrderMinimumQuantity= product.OrderMinimumQuantity,
+                OrderMaximumQuantity= product.OrderMaximumQuantity,
+                Published= product.Published,
+                Stock = 
+
+                AllProductCategoriesSelectListItems = categories
+                .Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString()
+                })
+                .ToList()
+            };
+        }
+
         public async Task<CreateProductViewModel> GetCreateProductViewModelAsync()
         {
             var categories = await productCategoryService.GetAllProductCategoriesAsync();

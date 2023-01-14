@@ -139,7 +139,7 @@ namespace RMLXCast.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest("[Edit]: Model is not valid!");
+                return BadRequest("[EditProduct]: Model is not valid!");
             }
 
             var idValue = id!.Value;
@@ -151,7 +151,9 @@ namespace RMLXCast.Web.Controllers
                 return BadRequest("Specified product is missing!");
             }
 
-            return View();
+            var model = productViewModelFactory.GetEditProductViewModel(product);
+
+            return View(model);
         }
 
         //[HttpGet]

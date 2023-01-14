@@ -7,6 +7,7 @@ namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
     {
         ProductsPagedViewModel CreateProductPagedViewModel(ICollection<Product> products, int pageNumber, int pageSize, int totalProducts);
 		Task<CreateProductViewModel> GetCreateProductViewModelAsync();
+        Task<EditProductViewModel> GetEditProductViewModel(Product product);
         Task UpdateCreateProductViewModelAsync(CreateProductViewModel viewModel);
     }
 }
