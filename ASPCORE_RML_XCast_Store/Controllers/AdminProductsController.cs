@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using RMLXCast.Core.Domain.Catalog;
 using RMLXCast.Services.Catalog;
+using RMLXCast.Services.Catalog.Category;
 using RMLXCast.Web.ViewModels.Product;
 using RMLXCast.Web.ViewModelsFactories.ProductFactory;
 
@@ -10,13 +13,19 @@ namespace RMLXCast.Web.Controllers
     {
         private readonly IProductViewModelFactory productViewModelFactory;
         private readonly IProductService productService;
+        private readonly IProductCategoryService productCategoryService;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
         public AdminProductsController(
             IProductViewModelFactory productViewModelFactory,
-            IProductService productService)
+            IProductService productService,
+            IProductCategoryService productCategoryService,
+            IWebHostEnvironment webHostEnvironment)
         {
             this.productViewModelFactory = productViewModelFactory;
             this.productService = productService;
+            this.productCategoryService = productCategoryService;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<IActionResult> Products(int? page)
@@ -73,15 +82,16 @@ namespace RMLXCast.Web.Controllers
                     StockQuantity = viewModel.Stock
                 });
 
-                
-
-
                 foreach (var selectedCategory in viewModel.SelectedProductCategoriesIds)
                 {
-                    product.ProductCategories.Add(new ProductCategory {Id= selectedCategory });
+                    product.ProductProductCategories.Add(new ProductProductCategory { ProductCategoryId = selectedCategory });
                 }
 
                 await productService.CreateProductAsync(product);
+
+                // TODO: Save product images
+
+                await SaveProductImagesAsync(product, viewModel.ProductImages);
 
                 return RedirectToAction("Products", "AdminProducts");
             }
@@ -90,6 +100,39 @@ namespace RMLXCast.Web.Controllers
             return View(viewModel);
         }
 
+        // TODO: MOVE OUT FROM HERE
+        private async Task SaveProductImagesAsync(Product product, List<IFormFile>? productImages)
+        {
+            if (productImages == null || productImages.Count == 0)
+            {
+                return;
+            }
+
+            var webRootPath = webHostEnvironment.WebRootPath;
+            var savePath = Path.Combine(
+                webRootPath,
+                "ExternalFiles",
+                "Products",
+                $"{product.Name}_{product.Id}");
+
+            Directory.CreateDirectory(savePath);
+
+            foreach (var productImage in productImages)
+            {
+                var imagePath = Path.Combine(savePath, productImage.FileName);
+
+                if (System.IO.File.Exists(imagePath))
+                {
+                    continue;
+                    //System.IO.File.Delete(imagePath);
+                }
+
+                using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await productImage.CopyToAsync(fileStream);
+                }
+            }
+        }
 
         [HttpGet]
         public async Task<IActionResult> EditProduct(int? id)
@@ -107,8 +150,6 @@ namespace RMLXCast.Web.Controllers
             {
                 return BadRequest("Specified product is missing!");
             }
-
-            
 
             return View();
         }

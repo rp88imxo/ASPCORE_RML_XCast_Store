@@ -24,8 +24,6 @@ namespace RMLXCast.Database
 
         public DbSet<ProductCategory> ProductCategories { get; set; }
 
-        public DbSet<ProductProductCategory> ProductProductCategory { get; set; }
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -40,13 +38,33 @@ namespace RMLXCast.Database
                     .HasColumnType("decimal(18,4)");
 
             builder.Entity<ProductCategory>()
-                .HasData(new ProductCategory 
-                {  
-                    Id= 1,
+                .HasData(new ProductCategory
+                {
+                    Id = 1,
                     Name = "Все",
                     Description = "Все товары",
-                    Editable= false
+                    Editable = false
                 });
+
+            builder.
+                 Entity<Product>()
+                .HasMany(x => x.ProductCategories)
+                .WithMany(x => x.Products)
+                .UsingEntity<ProductProductCategory>(
+                    j => j
+                      .HasOne(p => p.ProductCategory)
+                      .WithMany(s => s.ProductProductCategories)
+                      .HasForeignKey(t => t.ProductCategoryId),
+                    j => j
+                    .HasOne(t => t.Product)
+                    .WithMany(p => p.ProductProductCategories)
+                    .HasForeignKey(f => f.ProductId),
+                    j =>
+                    {
+                        j.HasKey(t => new { t.ProductId, t.ProductCategoryId });
+                        j.ToTable("ProductProductCategories");
+                    }
+                );
         }
     }
 }

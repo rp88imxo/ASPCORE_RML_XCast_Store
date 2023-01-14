@@ -19,4 +19,8 @@
     <ProjectReference Include="..\RMLXCast.Web.Framework\RMLXCast.Web.Framework.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\ExternalFiles\Products\" />
+  </ItemGroup>
+
 </Project>

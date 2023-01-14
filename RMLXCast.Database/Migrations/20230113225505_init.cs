@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RMLXCast.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class initMigration : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -222,24 +222,24 @@ namespace RMLXCast.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductProductCategory",
+                name: "ProductProductCategories",
                 columns: table => new
                 {
-                    ProductCategoriesId = table.Column<int>(type: "int", nullable: false),
-                    ProductsId = table.Column<int>(type: "int", nullable: false)
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ProductCategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductProductCategory", x => new { x.ProductCategoriesId, x.ProductsId });
+                    table.PrimaryKey("PK_ProductProductCategories", x => new { x.ProductId, x.ProductCategoryId });
                     table.ForeignKey(
-                        name: "FK_ProductProductCategory_ProductCategories_ProductCategoriesId",
-                        column: x => x.ProductCategoriesId,
+                        name: "FK_ProductProductCategories_ProductCategories_ProductCategoryId",
+                        column: x => x.ProductCategoryId,
                         principalTable: "ProductCategories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductProductCategory_Products_ProductsId",
-                        column: x => x.ProductsId,
+                        name: "FK_ProductProductCategories_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -390,9 +390,9 @@ namespace RMLXCast.Database.Migrations
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductProductCategory_ProductsId",
-                table: "ProductProductCategory",
-                column: "ProductsId");
+                name: "IX_ProductProductCategories_ProductCategoryId",
+                table: "ProductProductCategories",
+                column: "ProductCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stocks_ProductId",
@@ -422,7 +422,7 @@ namespace RMLXCast.Database.Migrations
                 name: "OrderItems");
 
             migrationBuilder.DropTable(
-                name: "ProductProductCategory");
+                name: "ProductProductCategories");
 
             migrationBuilder.DropTable(
                 name: "Stocks");

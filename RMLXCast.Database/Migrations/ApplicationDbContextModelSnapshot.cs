@@ -155,21 +155,6 @@ namespace RMLXCast.Database.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ProductProductCategory", b =>
-                {
-                    b.Property<int>("ProductCategoriesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductCategoriesId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("ProductProductCategory");
-                });
-
             modelBuilder.Entity("RMLXCast.Core.Domain.Catalog.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -247,6 +232,21 @@ namespace RMLXCast.Database.Migrations
                             Editable = false,
                             Name = "Все"
                         });
+                });
+
+            modelBuilder.Entity("RMLXCast.Core.Domain.Catalog.ProductProductCategory", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductCategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "ProductCategoryId");
+
+                    b.HasIndex("ProductCategoryId");
+
+                    b.ToTable("ProductProductCategories", (string)null);
                 });
 
             modelBuilder.Entity("RMLXCast.Core.Domain.Catalog.Stock", b =>
@@ -495,19 +495,23 @@ namespace RMLXCast.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProductProductCategory", b =>
+            modelBuilder.Entity("RMLXCast.Core.Domain.Catalog.ProductProductCategory", b =>
                 {
-                    b.HasOne("RMLXCast.Core.Domain.Catalog.ProductCategory", null)
-                        .WithMany()
-                        .HasForeignKey("ProductCategoriesId")
+                    b.HasOne("RMLXCast.Core.Domain.Catalog.ProductCategory", "ProductCategory")
+                        .WithMany("ProductProductCategories")
+                        .HasForeignKey("ProductCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RMLXCast.Core.Domain.Catalog.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
+                    b.HasOne("RMLXCast.Core.Domain.Catalog.Product", "Product")
+                        .WithMany("ProductProductCategories")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("ProductCategory");
                 });
 
             modelBuilder.Entity("RMLXCast.Core.Domain.Catalog.Stock", b =>
@@ -570,7 +574,14 @@ namespace RMLXCast.Database.Migrations
                 {
                     b.Navigation("OrderItems");
 
+                    b.Navigation("ProductProductCategories");
+
                     b.Navigation("Stocks");
+                });
+
+            modelBuilder.Entity("RMLXCast.Core.Domain.Catalog.ProductCategory", b =>
+                {
+                    b.Navigation("ProductProductCategories");
                 });
 
             modelBuilder.Entity("RMLXCast.Core.Domain.Orders.Order", b =>

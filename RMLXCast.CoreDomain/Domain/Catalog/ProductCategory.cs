@@ -14,5 +14,7 @@ namespace RMLXCast.Core.Domain.Catalog
         public bool Editable { get; set; }
 
         public List<Product> Products { get; set; } = new();
+
+        public ICollection<ProductProductCategory> ProductProductCategories { get; set; } = null!;
     }
 }

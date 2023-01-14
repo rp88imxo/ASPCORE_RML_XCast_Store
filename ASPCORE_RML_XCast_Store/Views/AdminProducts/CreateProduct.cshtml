@@ -96,24 +96,16 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label" for="SelectedProductCategories">Категории товара</label>
-                                   
                                     @Html.ListBoxFor(
                                         model => model.SelectedProductCategoriesIds,
-                                    new MultiSelectList(Model.AllProductCategoriesSelectListItems, "Value", "Text")
-                                    , new {@class = "multi-select", multiple = "multiple", id="ProductCategoriesDropdown"})
-                                    
-                                    @* <select name="SelectedProductCategories" class="form-control form-select select2" data-bs-placeholder="Выбор категорий">
-                                        @foreach (var productCategory in Model.AllProductCategoriesSelectListItems)
-                                        {
-                                            <option value="@productCategory.Id">@productCategory.Name</option>
-                                        }
-                                    </select>*@
+                                    new MultiSelectList(Model.AllProductCategoriesSelectListItems, "Value", "Text"), 
+                                    new {@class = "multi-select", multiple = "multiple", id="ProductCategoriesDropdown"})
                                 </div>
                             </div>
 
-                            <div class="form-group mb-0">
-                                <label class="form-label" for="SelectedProductCategories">Изображения товара</label>
-                                <input id="demo" type="file" asp-for="ProductImages" accept=".jpg, .png, image/jpeg, image/png" multiple class="ff_fileupload_hidden">
+                            <div class="form-group">
+                                <label for="" class="form-label">Изображения товара</</label>
+                                <input asp-for="ProductImages" class="form-control" type="file" id="formFileMultiple" multiple>
                             </div>
 
                         </div>
@@ -153,13 +145,6 @@
     <script src="~/sash/plugins/fancyuploder/jquery.iframe-transport.js"></script>
     <script src="~/sash/plugins/fancyuploder/jquery.fancy-fileupload.js"></script>
     <script src="~/sash/plugins/fancyuploder/fancy-uploader.js"></script>
-    
-   @* <!-- SELECT2 JS -->
-    <script src="../assets/plugins/select2/select2.full.min.js"></script>
-    <script src="../assets/js/select2.js"></script>
-
-    <!-- INTERNAL Sumoselect js-->
-    <script src="../assets/plugins/sumoselect/jquery.sumoselect.js"></script>*@
 
     <!-- MULTI SELECT JS-->
     <script src="~/sash/plugins/multipleselect/multiple-select.js"></script>

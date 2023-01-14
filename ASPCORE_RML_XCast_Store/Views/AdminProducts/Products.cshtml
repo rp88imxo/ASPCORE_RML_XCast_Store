@@ -52,16 +52,21 @@
                                             <td>@product.Price.ToString("N0")</td>
                                             <td>@product.Stock</td>
                                             <td>@(product.Published ? "Опубликован" : "Не опубликован")</td>
-                                           
+
                                             <td name="bstable-actions">
-                                                <form method="post" id="deleteForm" asp-action="DeleteProduct" asp-controller="AdminProducts">
+                                                <form method="post" asp-action="DeleteProduct" asp-controller="AdminProducts">
                                                     <input hidden name="id" value="@product.Id" />
                                                     <input hidden name="page" value="@Model.PageNumber" />
-                                                    </form>
-                                                <div class="btn-list">
+                                                    <div class="g-2">
+                                                        <a class="btn text-primary btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Редактировать" asp-action="EditProduct" asp-controller="AdminProducts" asp-route-id="@product.Id"><span class="fe fe-edit fs-14"></span></a>
+                                                        <button type="submit" class="btn text-danger btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Удалить"><span class="fe fe-trash-2 fs-14"></span></button>
+                                                    </div>
+                                                </form>
+
+                                                @*<div class="btn-list">
                                                     <a class="btn btn-sm btn-primary" asp-action="EditProduct" asp-controller="AdminProducts" asp-route-id="@product.Id"><span class="fe fe-edit"> </span></a>
                                                     <button form="deleteForm" class="btn btn-sm btn-danger" type="submit"><span class="fe fe-trash-2"> </span></button>
-                                                </div>
+                                                </div>*@
                                             </td>
                                         </tr>
                                     }
