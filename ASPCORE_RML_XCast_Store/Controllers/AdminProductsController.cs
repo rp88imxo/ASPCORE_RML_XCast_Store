@@ -34,7 +34,7 @@ namespace RMLXCast.Web.Controllers
             var pageValue = page ?? 1;
             int defaultPageSize = 15;
 
-            var products  = await productService.GetPagedProductsAsync(pageValue, defaultPageSize);
+            var products = await productService.GetPagedProductsAsync(pageValue, defaultPageSize);
             var totalProductCount = await productService.GetTotalProductCountAsync();
             var model = productViewModelFactory.CreateProductPagedViewModel(products, pageValue, defaultPageSize, totalProductCount);
 
@@ -46,7 +46,7 @@ namespace RMLXCast.Web.Controllers
         {
             var model = await productViewModelFactory.GetCreateProductViewModelAsync();
 
-			return View(model);
+            return View(model);
         }
 
         [HttpPost]
@@ -74,7 +74,7 @@ namespace RMLXCast.Web.Controllers
                     OrderMaximumQuantity = viewModel.OrderMaximumQuantity,
                     Published = viewModel.Published,
                     CreatedOnUtc = DateTime.UtcNow,
-                    UpdatedOnUtc= DateTime.UtcNow,
+                    UpdatedOnUtc = DateTime.UtcNow,
                 };
 
                 product.Stocks.Add(new Stock
@@ -151,9 +151,60 @@ namespace RMLXCast.Web.Controllers
                 return BadRequest("Specified product is missing!");
             }
 
-            var model = productViewModelFactory.GetEditProductViewModel(product);
+            var model = await productViewModelFactory.GetEditProductViewModelAsync(product);
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProduct(EditProductViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                if (viewModel.SelectedProductCategoriesIds.Count == 0)
+                {
+                    ModelState.AddModelError("", "Товар должен иметь хотя бы одну категорию.");
+
+                    await productViewModelFactory.UpdateEditProductViewModelAsync(viewModel);
+                    return View(viewModel);
+                }
+
+                var product = await productService.GetProductByIdAsync(viewModel.Id, true);
+
+                if (product == null)
+                {
+                    return BadRequest("Missing product with such id");
+                }
+
+                product.Name = viewModel.Name;
+                product.ShortDescription = viewModel.ShortDescription;
+                product.FullDescription = viewModel.FullDescription;
+                product.AdminComment = viewModel.AdminComment;
+                product.AllowCustomerReviews = viewModel.AllowCustomerReviews;
+                product.Price = viewModel.Price;
+                product.OrderMinimumQuantity = viewModel.OrderMinimumQuantity;
+                product.OrderMaximumQuantity = viewModel.OrderMaximumQuantity;
+                product.Published = viewModel.Published;
+                product.UpdatedOnUtc = DateTime.UtcNow;
+
+                var stock = product.Stocks.FirstOrDefault();
+                stock!.StockQuantity = viewModel.Stock;
+
+                product.ProductProductCategories.Clear();
+                foreach (var selectedCategory in viewModel.SelectedProductCategoriesIds)
+                {
+                    product.ProductProductCategories.Add(new ProductProductCategory { ProductCategoryId = selectedCategory });
+                }
+
+                await productService.UpdateProductAsync(product);
+
+                await SaveProductImagesAsync(product, viewModel.ProductImages);
+
+                return RedirectToAction("Products", "AdminProducts");
+            }
+
+            await productViewModelFactory.UpdateEditProductViewModelAsync(viewModel);
+            return View(viewModel);
         }
 
         //[HttpGet]
@@ -239,7 +290,7 @@ namespace RMLXCast.Web.Controllers
                 return BadRequest("Product Model Is not valid!");
             }
 
-            var result = await  productService.DeleteProductByIdAsync(id);
+            var result = await productService.DeleteProductByIdAsync(id);
 
             if (result)
             {

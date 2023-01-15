@@ -1,6 +1,153 @@
-﻿
-
+﻿@using RMLXCast.Web.ViewModels.Product;
+@model EditProductViewModel
 
 @{
     ViewBag.Title = "X-Cast Редактирование товара";
+}
+
+<!--app-content open-->
+<div class="main-content app-content mt-0">
+    <div class="side-app">
+        <!-- CONTAINER -->
+        <div class="main-container container-fluid">
+            <!-- PAGE-HEADER -->
+            <div class="page-header">
+                <h1 class="page-title">Панель редактирования товара</h1>
+            </div>
+            <!-- PAGE-HEADER END -->
+            <!--MAIN CONTENT START-->
+            <form method="post" asp-action="EditProduct" asp-controller="AdminProducts" enctype="multipart/form-data">
+                <input asp-for="Id" hidden readonly/>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Форма товара</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="form-label">Название товара<span class="text-red">*</span></label>
+                                    <input asp-for="Name" type="text" class="form-control">
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="ShortDescription" class="form-label">Краткое описание</label>
+                                    <textarea asp-for="ShortDescription" class="form-control textarea" rows="1"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="FullDescription" class="form-label">Полное описание</label>
+                                    <textarea asp-for="FullDescription" id="fullDescription" class="form-control textarea" rows="6"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="AdminComment" class="form-label">Заметка для товара (не видна покупателям)</label>
+                                    <textarea asp-for="AdminComment" class="form-control textarea" rows="1"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3 col-md-3">
+                                <div class="form-group">
+                                    <label asp-for="Price" class="form-label">Цена товара (в рублях) <span class="text-red">*</span></label>
+                                    <input type="number" asp-for="Price" class="form-control" />
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <div class="form-group" style="margin-right: 80%">
+                                    <label asp-for="OrderMinimumQuantity" class="form-label">Минимальное количество единиц товара для оформления заказа</label>
+                                    <input type="number" asp-for="OrderMinimumQuantity" class="form-control" />
+                                    <span asp-validation-for="OrderMinimumQuantity" class="text-danger"></span>
+                                </div>
+                                <div class="form-group" style="margin-right: 80%">
+                                    <label asp-for="OrderMaximumQuantity" class="form-label">Максимальное количество единиц товара для оформления заказа</label>
+                                    <input type="number" asp-for="OrderMaximumQuantity" class="form-control" />
+                                    <span asp-validation-for="OrderMaximumQuantity" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" asp-for="Published">
+                                        <span class="custom-control-label">Товар опубликован?</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3 col-md-3">
+                                <div class="form-group">
+                                    <label asp-for="Stock" class="form-label">Количество товара</label>
+                                    <input type="number" asp-for="Stock" class="form-control" />
+                                    <span asp-validation-for="Stock" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="SelectedProductCategories">Категории товара</label>
+                                    @Html.ListBoxFor(
+                                    model => model.SelectedProductCategoriesIds,
+                                    new MultiSelectList(Model.AllProductCategoriesSelectListItems, "Value", "Text"),
+                                    new {@class = "multi-select", multiple = "multiple", id="ProductCategoriesDropdown"})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="form-label">Изображения товара</</label>
+                                <input asp-for="ProductImages" class="form-control" type="file" id="formFileMultiple" multiple>
+                            </div>
+
+                        </div>
+
+                        <button type="submit" class="btn btn-sm btn-primary mt-4 mb-0">Сохранить</button>
+                    </div>
+                </div>
+            </form>
+            <!--MAIN CONTENT END-->
+
+        </div>
+        <!-- CONTAINER END -->
+    </div>
+</div>
+<!--app-content close-->
+@section Scripts
+    {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.getElementById('fullDescription'))
+            .catch(error => {
+                console.error(error);
+            });
+
+    </script>
+
+    <!-- FILE UPLOADES JS -->
+    <script src="~/sash/plugins/fileuploads/js/fileupload.js"></script>
+    <script src="~/sash/plugins/fileuploads/js/file-upload.js"></script>
+
+    <!-- INTERNAL File-Uploads Js-->
+    <script src="~/sash/plugins/fancyuploder/jquery.ui.widget.js"></script>
+    <script src="~/sash/plugins/fancyuploder/jquery.fileupload.js"></script>
+    <script src="~/sash/plugins/fancyuploder/jquery.iframe-transport.js"></script>
+    <script src="~/sash/plugins/fancyuploder/jquery.fancy-fileupload.js"></script>
+    <script src="~/sash/plugins/fancyuploder/fancy-uploader.js"></script>
+
+    <!-- MULTI SELECT JS-->
+    <script src="~/sash/plugins/multipleselect/multiple-select.js"></script>
+    <script src="~/sash/plugins/multipleselect/multi-select.js"></script>
+
 }

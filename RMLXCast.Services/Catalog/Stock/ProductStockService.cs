@@ -18,7 +18,7 @@ namespace RMLXCast.Services.Catalog.Stocks
             this.applicationDbContext = applicationDbContext;
         }
 
-        public async Task<IList<Stock>?> GetAllStockForProduct(int productId)
+        public async Task<IList<Stock>?> GetAllStockForProductAsync(int productId)
         {
             var stocks = await applicationDbContext.Stocks.Where(x => x.ProductId == productId).ToListAsync();
 

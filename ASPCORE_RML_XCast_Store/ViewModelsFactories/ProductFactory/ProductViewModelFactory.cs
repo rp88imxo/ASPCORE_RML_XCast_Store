@@ -2,6 +2,7 @@
 using RMLXCast.Core.Domain.Catalog;
 using RMLXCast.Services.Catalog;
 using RMLXCast.Services.Catalog.Category;
+using RMLXCast.Services.Catalog.Stocks;
 using RMLXCast.Web.ViewModels.Product;
 
 namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
@@ -10,13 +11,16 @@ namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
     {
         private readonly IProductService productService;
         private readonly IProductCategoryService productCategoryService;
+        private readonly IProductStockService productStockService;
 
         public ProductViewModelFactory(
             IProductService productService,
-            IProductCategoryService productCategoryService)
+            IProductCategoryService productCategoryService,
+            IProductStockService productStockService)
         {
             this.productService = productService;
             this.productCategoryService = productCategoryService;
+            this.productStockService = productStockService;
         }
 
         public ProductsPagedViewModel CreateProductPagedViewModel(
@@ -56,7 +60,7 @@ namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
                 .ToList();
         }
 
-        public async Task<EditProductViewModel> GetEditProductViewModel(Product product)
+        public async Task<EditProductViewModel> GetEditProductViewModelAsync(Product product)
         {
             if (product == null)
             {
@@ -64,29 +68,48 @@ namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
             }
 
             var categories = await productCategoryService.GetAllProductCategoriesAsync();
+            var stock = await productStockService.GetAllStockForProductAsync(product.Id);
+
+            var selectedIds = product.ProductCategories.Select(x=> x.Id).ToList();
 
             var model = new EditProductViewModel()
             {
-                Id= product.Id,
+                Id = product.Id,
                 Name = product.Name,
                 ShortDescription = product.ShortDescription,
                 FullDescription = product.FullDescription,
-                AdminComment= product.AdminComment,
-                AllowCustomerReviews= product.AllowCustomerReviews,
-                Price= product.Price,
-                OrderMinimumQuantity= product.OrderMinimumQuantity,
-                OrderMaximumQuantity= product.OrderMaximumQuantity,
-                Published= product.Published,
-                Stock = 
-
+                AdminComment = product.AdminComment,
+                AllowCustomerReviews = product.AllowCustomerReviews,
+                Price = product.Price,
+                OrderMinimumQuantity = product.OrderMinimumQuantity,
+                OrderMaximumQuantity = product.OrderMaximumQuantity,
+                Published = product.Published,
+                Stock = stock!.Sum(x => x.StockQuantity),
+                SelectedProductCategoriesIds = selectedIds,
                 AllProductCategoriesSelectListItems = categories
+                .Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id.ToString(),
+                    Selected = selectedIds.Contains(x.Id)
+                })
+                .ToList()
+            };
+
+            return model;
+        }
+
+        public async Task UpdateEditProductViewModelAsync(EditProductViewModel viewModel)
+        {
+            var categories = await productCategoryService.GetAllProductCategoriesAsync();
+
+            viewModel.AllProductCategoriesSelectListItems = categories
                 .Select(x => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
                 {
                     Text = x.Name,
                     Value = x.Id.ToString()
                 })
-                .ToList()
-            };
+                .ToList();
         }
 
         public async Task<CreateProductViewModel> GetCreateProductViewModelAsync()

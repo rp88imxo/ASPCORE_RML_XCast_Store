@@ -4,6 +4,6 @@ namespace RMLXCast.Services.Catalog.Stocks
 {
     public interface IProductStockService
     {
-        Task<IList<Stock>?> GetAllStockForProduct(int productId);
+        Task<IList<Stock>?> GetAllStockForProductAsync(int productId);
     }
 }
