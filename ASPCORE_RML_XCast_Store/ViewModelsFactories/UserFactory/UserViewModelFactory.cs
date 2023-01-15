@@ -6,6 +6,7 @@ using RMLXCast.Core.Domain.Role;
 using RMLXCast.Core.Domain.User;
 using RMLXCast.Web.ViewModels.Account;
 using RMLXCast.Web.ViewModels.User;
+using System.Data;
 using System.Text;
 
 namespace RMLXCast.Web.ViewModelsFactories.UserFactory
@@ -38,25 +39,33 @@ namespace RMLXCast.Web.ViewModelsFactories.UserFactory
             return user;
         }
 
-        public Task<UsersPagedViewModel> CreateUsersPagedViewModelAsync(ICollection<ApplicationUser> users,
+        public async Task<UsersPagedViewModel> CreateUsersPagedViewModelAsync(ICollection<ApplicationUser> users,
             int pageNumber,
             int pageSize,
             int totalUsers)
         {
-
-            var usersModel = users.Select(x => new UserPagedViewModel()
+            var models = new List<UserPagedViewModel>();
+            foreach (var u in users)
             {
-                UserId = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                RegistrationDateUtc = x.RegistrationDateUtc,
-                Roles = CreateUserRolesString(x.ApplicationUserRoles),
-                OrdersCount = x.Orders.Count()
-            }).ToList();
+                var user = new UserPagedViewModel()
+                {
+                    UserId = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    RegistrationDateUtc = u.RegistrationDateUtc,
+
+                    OrdersCount = u.Orders.Count()
+                };
+
+                var roles = await userManager.GetRolesAsync(u);
+                user.Roles = CreateUserRolesString(roles);
+
+                models.Add(user);
+            }
 
             var model = new UsersPagedViewModel()
             {
-                UserPagedViewModels = new StaticPagedList<UserPagedViewModel>(usersModel,
+                UserPagedViewModels = new StaticPagedList<UserPagedViewModel>(models.ToList(),
                     pageNumber,
                     pageSize,
                     totalUsers),
@@ -64,13 +73,13 @@ namespace RMLXCast.Web.ViewModelsFactories.UserFactory
                 PageNumber = pageNumber,
             };
 
-            return Task.FromResult(model);
+            return model;
         }
 
         public async Task<EditUserViewModel> GetEditUserViewModelAsync(ApplicationUser user)
         {
             var roles = await roleManager.Roles.ToListAsync();
-
+            var userRoles = await userManager.GetRolesAsync(user);
 
             var model = new EditUserViewModel()
             {
@@ -78,22 +87,18 @@ namespace RMLXCast.Web.ViewModelsFactories.UserFactory
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 AllRoles = roles,
-                UserRoles = user.ApplicationUserRoles.Select(x => x.Name).ToList()!,
+                UserRoles = userRoles,
                 IsBanned = user.IsBanned,
             };
 
             return model;
         }
 
-        private string CreateUserRolesString(IList<ApplicationUserRole> roles)
+        private string CreateUserRolesString(IList<string> roles)
         {
             var sb = new StringBuilder();
 
-            foreach (var role in roles)
-            {
-                sb.Append(role.Name);
-                sb.Append(",");
-            }
+            sb.AppendJoin(",", roles);
 
             return sb.ToString();
         }

@@ -18,7 +18,5 @@ namespace RMLXCast.Core.Domain.User
         public IEnumerable<Order> Orders { get; set; }
         public DateTime RegistrationDateUtc { get; set; }
         public bool IsBanned { get; set; }
-
-        public IList<ApplicationUserRole> ApplicationUserRoles { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using RMLXCast.Services.Catalog;
 using RMLXCast.Services.Catalog.Category;
 using RMLXCast.Services.Catalog.Stocks;
 using RMLXCast.Services.Catalog.User;
+using RMLXCast.Web.Initializers;
 using RMLXCast.Web.ViewModelsFactories.ProductFactory;
 using RMLXCast.Web.ViewModelsFactories.RolesFactory;
 using RMLXCast.Web.ViewModelsFactories.UserFactory;
@@ -15,7 +16,7 @@ namespace ASPCORE_RML_XCast_Store
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +54,12 @@ namespace ASPCORE_RML_XCast_Store
 
 
             var app = builder.Build();
+
+            // -----CUSTOM INITIALIZERS-----
+
+            await UserInitializer.InitializeAsync(app.Services);
+            
+            // -----CUSTOM INITIALIZERS-----
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

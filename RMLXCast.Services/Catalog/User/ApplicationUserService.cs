@@ -23,7 +23,6 @@ namespace RMLXCast.Services.Catalog.User
         {
             return await userManager.Users
                 .Include(x => x.Addresses)
-                .Include(x => x.ApplicationUserRoles)
                 .Include(x => x.Orders)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)

@@ -19,6 +19,7 @@
             <!--MAIN CONTENT START-->
             <form method="post" asp-action="Edit" asp-controller="Users">
                 <input asp-for="Id" hidden readonly/>
+                <input asp-for="AllRoles" hidden readonly/>
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Форма пользователя</h3>
@@ -36,9 +37,9 @@
 
                             <div class="col-sm-6 col-md-6">
                                 <div class="form-group">
-                                    <label asp-for="FirstName" class="form-label">Фамилия<span class="text-red">*</span></label>
-                                    <input asp-for="FirstName" type="text" class="form-control">
-                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    <label asp-for="LastName" class="form-label">Фамилия<span class="text-red">*</span></label>
+                                    <input asp-for="LastName" type="text" class="form-control">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
                                 </div>
                             </div>
                             
@@ -53,11 +54,18 @@
 
                             <div class="col-md-12">
                                 <div class="form-group">
+                                    <label class="form-label">Роли пользователя</label>
                                     @foreach (var role in Model.AllRoles)
                                     {
-                                        <input type="checkbox" name="UserRoles" value="@role.Name"
+                                        <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" name="UserRoles" value="@role.Name"
                                            @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />
-                                        @role.Name <br />
+                                            <span class="custom-control-label">@role.Name</span>
+                                    </label>
+
+                                       @* <input class="custom-control-input" type="checkbox" name="UserRoles" value="@role.Name"
+                                           @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />
+                                        @role.Name <br />*@
                                     }
                                 </div>
                             </div>
