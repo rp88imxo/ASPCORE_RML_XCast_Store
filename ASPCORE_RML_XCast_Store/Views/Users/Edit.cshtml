@@ -1,0 +1,85 @@
+﻿@using RMLXCast.Web.ViewModels.User;
+@model EditUserViewModel
+
+
+@{
+    ViewBag.Title = "X-Cast Редактирование пользователя";
+}
+
+<!--app-content open-->
+<div class="main-content app-content mt-0">
+    <div class="side-app">
+        <!-- CONTAINER -->
+        <div class="main-container container-fluid">
+            <!-- PAGE-HEADER -->
+            <div class="page-header">
+                <h1 class="page-title">Панель редактирования пользователя</h1>
+            </div>
+            <!-- PAGE-HEADER END -->
+            <!--MAIN CONTENT START-->
+            <form method="post" asp-action="Edit" asp-controller="Users">
+                <input asp-for="Id" hidden readonly/>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Форма пользователя</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FirstName" class="form-label">Имя<span class="text-red">*</span></label>
+                                    <input asp-for="FirstName" type="text" class="form-control">
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FirstName" class="form-label">Фамилия<span class="text-red">*</span></label>
+                                    <input asp-for="FirstName" type="text" class="form-control">
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" asp-for="IsBanned">
+                                        <span class="custom-control-label">Пользователь заблокирован?</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    @foreach (var role in Model.AllRoles)
+                                    {
+                                        <input type="checkbox" name="UserRoles" value="@role.Name"
+                                           @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "") />
+                                        @role.Name <br />
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-primary mt-4 mb-0">Сохранить</button>
+                    </div>
+                </div>
+            </form>
+            <!--MAIN CONTENT END-->
+
+        </div>
+        <!-- CONTAINER END -->
+    </div>
+</div>
+<!--app-content close-->
+@section Scripts
+    {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+        <!-- MULTI SELECT JS-->
+        <script src="~/sash/plugins/multipleselect/multiple-select.js"></script>
+        <script src="~/sash/plugins/multipleselect/multi-select.js"></script>
+
+}

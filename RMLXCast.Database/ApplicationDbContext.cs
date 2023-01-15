@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RMLXCast.Core.Domain.Catalog;
 using RMLXCast.Core.Domain.Orders;
+using RMLXCast.Core.Domain.Role;
 using RMLXCast.Core.Domain.ShippmentAddress;
 using RMLXCast.Core.Domain.User;
 using System;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace RMLXCast.Database
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationUserRole, string>
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Stock> Stocks { get; set; }

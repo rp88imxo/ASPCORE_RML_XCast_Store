@@ -1,11 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using RMLXCast.Core.Domain.Role;
 using RMLXCast.Core.Domain.User;
 using RMLXCast.Database;
 using RMLXCast.Services.Catalog;
 using RMLXCast.Services.Catalog.Category;
 using RMLXCast.Services.Catalog.Stocks;
+using RMLXCast.Services.Catalog.User;
 using RMLXCast.Web.ViewModelsFactories.ProductFactory;
+using RMLXCast.Web.ViewModelsFactories.RolesFactory;
 using RMLXCast.Web.ViewModelsFactories.UserFactory;
 
 namespace ASPCORE_RML_XCast_Store
@@ -24,7 +27,7 @@ namespace ASPCORE_RML_XCast_Store
             });
 
             builder.Services
-                .AddIdentity<ApplicationUser, IdentityRole>(options =>
+                .AddIdentity<ApplicationUser, ApplicationUserRole>(options =>
                 {
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
@@ -43,6 +46,8 @@ namespace ASPCORE_RML_XCast_Store
             builder.Services.AddScoped<IUserViewModelFactory, UserViewModelFactory>();
             builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
             builder.Services.AddScoped<IProductStockService, ProductStockService>();
+            builder.Services.AddScoped<IRolesViewModelFactory, RolesViewModelFactory>();
+            builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
 
             // -----CUSTOM SERVICES-----
 

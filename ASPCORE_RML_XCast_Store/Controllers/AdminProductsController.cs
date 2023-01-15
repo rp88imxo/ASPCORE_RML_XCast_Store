@@ -32,7 +32,7 @@ namespace RMLXCast.Web.Controllers
         {
             // TODO: Move to the config later...
             var pageValue = page ?? 1;
-            int defaultPageSize = 15;
+            int defaultPageSize = 30;
 
             var products = await productService.GetPagedProductsAsync(pageValue, defaultPageSize);
             var totalProductCount = await productService.GetTotalProductCountAsync();

@@ -12,8 +12,8 @@ using RMLXCast.Database;
 namespace RMLXCast.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230113225505_init")]
-    partial class init
+    [Migration("20230115193920_addedIsBannedForUser")]
+    partial class addedIsBannedForUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,33 +24,6 @@ namespace RMLXCast.Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
@@ -332,6 +305,41 @@ namespace RMLXCast.Database.Migrations
                     b.ToTable("OrderItems");
                 });
 
+            modelBuilder.Entity("RMLXCast.Core.Domain.Role.ApplicationUserRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
             modelBuilder.Entity("RMLXCast.Core.Domain.ShippmentAddress.Address", b =>
                 {
                     b.Property<int>("Id")
@@ -394,6 +402,9 @@ namespace RMLXCast.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsBanned")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -449,7 +460,7 @@ namespace RMLXCast.Database.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("RMLXCast.Core.Domain.Role.ApplicationUserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -476,7 +487,7 @@ namespace RMLXCast.Database.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("RMLXCast.Core.Domain.Role.ApplicationUserRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -564,6 +575,13 @@ namespace RMLXCast.Database.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("RMLXCast.Core.Domain.Role.ApplicationUserRole", b =>
+                {
+                    b.HasOne("RMLXCast.Core.Domain.User.ApplicationUser", null)
+                        .WithMany("ApplicationUserRoles")
+                        .HasForeignKey("ApplicationUserId");
+                });
+
             modelBuilder.Entity("RMLXCast.Core.Domain.ShippmentAddress.Address", b =>
                 {
                     b.HasOne("RMLXCast.Core.Domain.User.ApplicationUser", "ApplicationUser")
@@ -600,6 +618,8 @@ namespace RMLXCast.Database.Migrations
             modelBuilder.Entity("RMLXCast.Core.Domain.User.ApplicationUser", b =>
                 {
                     b.Navigation("Addresses");
+
+                    b.Navigation("ApplicationUserRoles");
 
                     b.Navigation("Orders");
                 });

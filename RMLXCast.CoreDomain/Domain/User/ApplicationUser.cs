@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using RMLXCast.Core.Domain.Orders;
+using RMLXCast.Core.Domain.Role;
 using RMLXCast.Core.Domain.ShippmentAddress;
 using System;
 using System.Collections.Generic;
@@ -16,5 +17,8 @@ namespace RMLXCast.Core.Domain.User
         public IEnumerable<Address> Addresses { get; set; }
         public IEnumerable<Order> Orders { get; set; }
         public DateTime RegistrationDateUtc { get; set; }
+        public bool IsBanned { get; set; }
+
+        public IList<ApplicationUserRole> ApplicationUserRoles { get; set; }
     }
 }
