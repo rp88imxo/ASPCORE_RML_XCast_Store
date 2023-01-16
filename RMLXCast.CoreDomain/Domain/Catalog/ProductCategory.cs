@@ -13,7 +13,7 @@ namespace RMLXCast.Core.Domain.Catalog
         public string? Description { get; set; }
         public bool Editable { get; set; }
 
-        public List<Product> Products { get; set; } = new();
+        public IList<Product> Products { get; set; } = new List<Product>();
 
         public ICollection<ProductProductCategory> ProductProductCategories { get; set; } = null!;
     }

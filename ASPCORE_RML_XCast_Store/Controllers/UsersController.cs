@@ -55,8 +55,8 @@ namespace RMLXCast.Web.Controllers
             }
 
             var user = await userManager.Users
-                .FirstOrDefaultAsync(x=> x.Id == id);
-            
+                .FirstOrDefaultAsync(x => x.Id == id);
+
             if (user == null)
             {
                 return BadRequest();
@@ -80,7 +80,7 @@ namespace RMLXCast.Web.Controllers
                 }
 
                 user.FirstName = viewModel.FirstName;
-                user.LastName= viewModel.LastName;
+                user.LastName = viewModel.LastName;
                 user.IsBanned = viewModel.IsBanned;
 
                 var userRoles = await userManager.GetRolesAsync(user);
@@ -96,7 +96,7 @@ namespace RMLXCast.Web.Controllers
             }
 
             var roles = await roleManager.Roles.ToListAsync();
-            viewModel.AllRoles= roles;
+            viewModel.AllRoles = roles;
 
             return View(viewModel);
         }

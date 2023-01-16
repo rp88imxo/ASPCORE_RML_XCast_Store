@@ -22,5 +22,50 @@ namespace RMLXCast.Services.Catalog.Category
         {
             return await applicationDbContext.ProductCategories.ToListAsync();
         }
+
+        public async Task CreateProductCategoryAsync(ProductCategory productCategory)
+        {
+            await applicationDbContext.ProductCategories.AddAsync(productCategory);
+            await applicationDbContext.SaveChangesAsync();
+        }
+
+        public async Task<ProductCategory?> GetProductCategortByIdAsync(int id)
+        {
+            var res = await applicationDbContext.ProductCategories.FirstOrDefaultAsync(x => x.Id == id);
+            return res;
+        }
+
+        public async Task<IList<ProductCategory>> GetPagedProductCategoriesAsync(int pageNumber, int pageSize)
+        {
+            return await applicationDbContext
+                .ProductCategories
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task UpdateProductCategoryAsync(ProductCategory productCategory)
+        {
+            applicationDbContext.ProductCategories.Update(productCategory);
+            await applicationDbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteProductCategoryByIdAsync(int id)
+        {
+            var product = await GetProductCategortByIdAsync(id);
+
+            if (product == null)
+            {
+                return;
+            }
+
+            applicationDbContext.ProductCategories.Remove(product);
+            await applicationDbContext.SaveChangesAsync();
+        }
+
+        public async Task<int> GetTotalProductCountAsync()
+        {
+            return await applicationDbContext.ProductCategories.CountAsync();
+        }
     }
 }
