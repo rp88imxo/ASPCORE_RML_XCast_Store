@@ -29,7 +29,7 @@ namespace RMLXCast.Services.Catalog.Category
             await applicationDbContext.SaveChangesAsync();
         }
 
-        public async Task<ProductCategory?> GetProductCategortByIdAsync(int id)
+        public async Task<ProductCategory?> GetProductCategoryByIdAsync(int id)
         {
             var res = await applicationDbContext.ProductCategories.FirstOrDefaultAsync(x => x.Id == id);
             return res;
@@ -50,17 +50,19 @@ namespace RMLXCast.Services.Catalog.Category
             await applicationDbContext.SaveChangesAsync();
         }
 
-        public async Task DeleteProductCategoryByIdAsync(int id)
+        public async Task<bool> DeleteProductCategoryByIdAsync(int id)
         {
-            var product = await GetProductCategortByIdAsync(id);
+            var product = await GetProductCategoryByIdAsync(id);
 
-            if (product == null)
+            if (product == null || !product.Editable)
             {
-                return;
+                return false;
             }
 
             applicationDbContext.ProductCategories.Remove(product);
             await applicationDbContext.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<int> GetTotalProductCountAsync()

@@ -1,0 +1,63 @@
+﻿@using RMLXCast.Web.ViewModels.Product_Category;
+@model CreateProductCategoryViewModel
+
+@{
+    ViewBag.Title = "X-Cast Добавление новой категории";
+}
+
+<!--app-content open-->
+<div class="main-content app-content mt-0">
+    <div class="side-app">
+        <!-- CONTAINER -->
+        <div class="main-container container-fluid">
+            <!-- PAGE-HEADER -->
+            <div class="page-header">
+                <h1 class="page-title">Добавление новой категории</h1>
+            </div>
+            <!-- PAGE-HEADER END -->
+            <!--MAIN CONTENT START-->
+            <form method="post" asp-action="Create" asp-controller="ProductCategory">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Форма категории товара</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="Name" class="form-label">Название категории <span class="text-red">*</span></label>
+                                    <input asp-for="Name" type="text" class="form-control">
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label asp-for="Description" class="form-label">Описание категории</label>
+                                    <textarea asp-for="Description" class="form-control textarea" rows="6"></textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-primary mt-4 mb-0">Создать</button>
+                    </div>
+                </div>
+            </form>
+            <!--MAIN CONTENT END-->
+
+        </div>
+        <!-- CONTAINER END -->
+    </div>
+</div>
+<!--app-content close-->
+@section Scripts
+    {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+            <!-- MULTI SELECT JS-->
+            <script src="~/sash/plugins/multipleselect/multiple-select.js"></script>
+            <script src="~/sash/plugins/multipleselect/multi-select.js"></script>
+}

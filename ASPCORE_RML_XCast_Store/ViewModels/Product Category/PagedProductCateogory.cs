@@ -13,5 +13,8 @@ namespace RMLXCast.Web.ViewModels
 
         [Display(Name = "Краткое описание категории")]
         public string? Description { get; set; }
+
+        public bool Editable { get; set; }
+
     }
 }

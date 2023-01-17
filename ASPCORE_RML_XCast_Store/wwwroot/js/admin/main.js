@@ -4,6 +4,7 @@ const { createApp } = Vue
 const app = createApp({
     data() {
         return {
+            editing: false,
             objectIndex: 0,
             id: 0,
             loading: false,
@@ -62,9 +63,11 @@ const app = createApp({
                 })
                 .then(() => {
                     this.loading = false;
+                    this.editing = false;
                 });
         },
         editProduct(product, index) {
+            this.editing = true;
             this.objectIndex = index;
             this.productModel = {
                 id: product.id,
@@ -87,6 +90,7 @@ const app = createApp({
                 })
                 .then(() => {
                     this.loading = false;
+                    this.editing = false;
                 });
         },
         deleteProduct(id, index) {

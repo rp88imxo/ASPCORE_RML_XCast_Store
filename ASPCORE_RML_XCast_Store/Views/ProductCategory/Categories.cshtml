@@ -42,8 +42,10 @@
                                         <tr>
                                             <td>@productCategory.Name</td>
                                             <td>@productCategory.Description</td>
-
-                                            <td name="bstable-actions">
+                                          
+                                                <td name="bstable-actions">
+                                                @if (productCategory.Editable)
+                                                {
                                                 <form method="post" asp-action="Delete" asp-controller="ProductCategory">
                                                     <input hidden name="id" value="@productCategory.Id" />
                                                     <input hidden name="page" value="@Model.PageNumber" />
@@ -52,12 +54,15 @@
                                                         <button type="submit" class="btn text-danger btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Удалить"><span class="fe fe-trash-2 fs-14"></span></button>
                                                     </div>
                                                 </form>
+                                                }
                                             </td>
+                                           
                                         </tr>
                                     }
                                 </tbody>
                             </table>
                         </div>
+                        <a class="btn btn-primary" asp-action="Create" asp-controller="ProductCategory"> Создать новую категорию</a>
                     </div>
                 </div>
 
