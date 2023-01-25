@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    ViewBag.PageHeaderLabel = "X-Cast";
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -41,15 +46,15 @@
         <div class="container-fluid">
             <div class="breadcrumb-content text-center">
                 <div class="breadcrumb-title">
-                    <h2>Shop Sidebar</h2>
+                    <h2>@ViewBag.PageHeaderLabel</h2>
                 </div>
-                <ul>
+                @*<ul>
                     <li>
                         <a href="index.html">Home 01 </a>
                     </li>
                     <li><span> &gt; </span></li>
                     <li class="active"> shop </li>
-                </ul>
+                </ul>*@
             </div>
         </div>
     </div>

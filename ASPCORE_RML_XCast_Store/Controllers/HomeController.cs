@@ -18,14 +18,17 @@ namespace RMLXCast.Web.Controllers
             this.productService = productService;
         }
 
+        public IActionResult Test(int id)
+        {
+            HttpContext.Session.SetInt32("id", id);
+            var idSession = HttpContext.Session.GetInt32("id");
+
+            return Ok(new { idSession });
+        }
+
         public IActionResult Index()
         {
             return View();
-        }
-
-        public IActionResult ErrorNotFound()
-        {
-            return NotFound("Page is not found");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

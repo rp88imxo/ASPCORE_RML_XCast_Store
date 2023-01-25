@@ -41,6 +41,12 @@ namespace ASPCORE_RML_XCast_Store
                 .AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
 
+            builder.Services.AddSession(options =>
+            {
+                options.Cookie.Name = "XCastSession";
+                options.Cookie.MaxAge = TimeSpan.FromDays(7.0);
+            });
+
             // -----CUSTOM SERVICES-----
 
             builder.Services.AddScoped<IProductService, ProductService>();
@@ -81,8 +87,10 @@ namespace ASPCORE_RML_XCast_Store
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.MapFallbackToController("ErrorNotFound", "Home");
+                pattern: "{controller=Shop}/{action=Products}");
+            app.MapFallbackToController("ErrorNotFound", "Shop");
+
+            app.UseSession();
 
             app.Run();
         }

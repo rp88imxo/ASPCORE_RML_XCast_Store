@@ -26451,7 +26451,7 @@ body.body-menu-overlay::before {
 }
 
 .breadcrumb-bg-1 {
-  background: #fff url("../../assets/images/bg/breadcrumb-bg-1.jpg") repeat-x center bottom;
+    background: #fff url("/toro/images/bg/xcastBreadcrumb-bg.jpg") repeat-x center center;
 }
 
 .breadcrumb-bg-2 {
