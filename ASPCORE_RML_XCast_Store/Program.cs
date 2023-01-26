@@ -8,9 +8,11 @@ using RMLXCast.Services.Catalog.Category;
 using RMLXCast.Services.Catalog.Stocks;
 using RMLXCast.Services.Catalog.User;
 using RMLXCast.Web.Initializers;
+using RMLXCast.Web.Services.ProductImagesService;
 using RMLXCast.Web.ViewModelsFactories.ProductCategoryFactory;
 using RMLXCast.Web.ViewModelsFactories.ProductFactory;
 using RMLXCast.Web.ViewModelsFactories.RolesFactory;
+using RMLXCast.Web.ViewModelsFactories.ShopProducts;
 using RMLXCast.Web.ViewModelsFactories.UserFactory;
 
 namespace ASPCORE_RML_XCast_Store
@@ -58,6 +60,8 @@ namespace ASPCORE_RML_XCast_Store
             builder.Services.AddScoped<IApplicationUserService, ApplicationUserService>();
             builder.Services.AddScoped<IProductCategoryService, ProductCategoryService>();
             builder.Services.AddScoped<IProductCategoryFactory, ProductCategoryFactory>();
+            builder.Services.AddScoped<IShopProductViewModelFactory, ShopProductViewModelFactory>();
+            builder.Services.AddScoped<IProductImagesService, ProductImagesService>();
 
             // -----CUSTOM SERVICES-----
 

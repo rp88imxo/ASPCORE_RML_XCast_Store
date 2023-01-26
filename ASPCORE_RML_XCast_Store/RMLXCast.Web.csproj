@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\ExternalFiles\ProductDefaultImage\" />
     <Folder Include="wwwroot\ExternalFiles\Products\" />
   </ItemGroup>
 

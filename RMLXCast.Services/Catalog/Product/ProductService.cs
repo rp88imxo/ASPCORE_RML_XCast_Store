@@ -64,6 +64,28 @@ namespace RMLXCast.Services.Catalog
                 .ToListAsync();
         }
 
+        public async Task<IList<Product>> GetPagedProductsAsync(int pageNumber, int pageSize, string searchString, ProductCategory? productCategory)
+        {
+            IQueryable<Product> query = dbContext.Products
+                .Include(x => x.Stocks)
+                .Include(x => x.ProductCategories);
+
+            if (productCategory != null)
+            {
+                query = query.Where(x => x.ProductCategories.Any(x => x.Id == productCategory.Id));
+            }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                query = query.Where(x => x.Name.Contains(searchString) || x.ShortDescription!.Contains(searchString));
+            }
+
+            return await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
         public async Task<int> GetTotalProductCountAsync()
         {
             return await dbContext.Products.CountAsync();

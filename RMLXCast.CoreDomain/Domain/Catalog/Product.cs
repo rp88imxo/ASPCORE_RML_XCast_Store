@@ -11,7 +11,7 @@ namespace RMLXCast.Core.Domain.Catalog
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string? ShortDescription { get; set; }
+        public string? ShortDescription { get; set; } = string.Empty;
         public string? FullDescription { get; set; }
         public string? AdminComment { get; set; }
 
