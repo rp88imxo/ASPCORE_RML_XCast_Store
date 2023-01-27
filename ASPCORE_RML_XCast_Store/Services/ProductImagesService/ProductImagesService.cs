@@ -17,11 +17,7 @@ namespace RMLXCast.Web.Services.ProductImagesService
         {
             var webRootPath = webHostEnvironment.WebRootPath;
            
-            var loadPath = Path.Combine(
-                webRootPath,
-                "ExternalFiles",
-                "Products",
-                $"{product.Name}_{product.Id}");
+            var loadPath = GetPhysicalPathForProductImage(product);
 
             if (!Directory.Exists(loadPath))
             {
@@ -38,16 +34,20 @@ namespace RMLXCast.Web.Services.ProductImagesService
             foreach (var imagePath in imagePaths)
             {
                 var name = Path.GetFileName(imagePath);
-
-                var imageWebPath = Path.Combine(
-                    "ExternalFiles",
-                    "Products",
-                    $"{product.Name}_{product.Id}",
-                    name);
+                string imageWebPath = GetVirtualPathForProductImage(product, name);
                 resultImageUrls.Add(imageWebPath);
             }
 
             return resultImageUrls;
+        }
+
+        private string GetVirtualPathForProductImage(Product product, string name)
+        {
+            return Path.Combine(
+                "ExternalFiles",
+                "Products",
+                $"{product.Id}",
+                name);
         }
 
         private string GetDefaultProductImage()
@@ -76,14 +76,16 @@ namespace RMLXCast.Web.Services.ProductImagesService
                 return;
             }
 
-            var webRootPath = webHostEnvironment.WebRootPath;
-            var savePath = Path.Combine(
-                webRootPath,
-                "ExternalFiles",
-                "Products",
-                $"{product.Name}_{product.Id}");
+            var savePath = GetPhysicalPathForProductImage(product);
 
             Directory.CreateDirectory(savePath);
+
+            var imagePaths = Directory.GetFiles(savePath);
+
+            foreach (var imagePath in imagePaths)
+            {
+                File.Delete(imagePath);
+            }
 
             foreach (var productImage in productImages)
             {
@@ -99,6 +101,18 @@ namespace RMLXCast.Web.Services.ProductImagesService
                     await productImage.CopyToAsync(fileStream);
                 }
             }
+        }
+
+        private string GetPhysicalPathForProductImage(Product product)
+        {
+            var webRootPath = webHostEnvironment.WebRootPath;
+            var savePath = Path.Combine(
+                webRootPath,
+                "ExternalFiles",
+                "Products",
+                $"{product.Id}");
+
+            return savePath;
         }
     }
 }

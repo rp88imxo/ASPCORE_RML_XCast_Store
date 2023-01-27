@@ -27,7 +27,7 @@ namespace RMLXCast.Web.Controllers
 
         public async Task<IActionResult> Products(string? searchString, int? page, int? categoryId)
         {
-            var currentPage = page ?? 1;
+            int currentPage = page != null ? Math.Max(0, page.Value) : 1;
             int defaultPageSize = 10;
 
             ProductCategory? productCategory = null;

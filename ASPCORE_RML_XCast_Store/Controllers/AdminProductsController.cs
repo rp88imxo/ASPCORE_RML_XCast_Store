@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RMLXCast.Core.Domain.Catalog;
 using RMLXCast.Services.Catalog;
 using RMLXCast.Services.Catalog.Category;
+using RMLXCast.Web.Services.ProductImagesService;
 using RMLXCast.Web.ViewModels.Product;
 using RMLXCast.Web.ViewModelsFactories.ProductFactory;
 
@@ -15,17 +16,20 @@ namespace RMLXCast.Web.Controllers
         private readonly IProductService productService;
         private readonly IProductCategoryService productCategoryService;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IProductImagesService productImagesService;
 
         public AdminProductsController(
             IProductViewModelFactory productViewModelFactory,
             IProductService productService,
             IProductCategoryService productCategoryService,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            IProductImagesService productImagesService)
         {
             this.productViewModelFactory = productViewModelFactory;
             this.productService = productService;
             this.productCategoryService = productCategoryService;
             this.webHostEnvironment = webHostEnvironment;
+            this.productImagesService = productImagesService;
         }
 
         public async Task<IActionResult> Products(int? page)
@@ -91,47 +95,13 @@ namespace RMLXCast.Web.Controllers
 
                 // TODO: Save product images
 
-                await SaveProductImagesAsync(product, viewModel.ProductImages);
+                await productImagesService.SaveProductImagesAsync(product, viewModel.ProductImages);
 
                 return RedirectToAction("Products", "AdminProducts");
             }
 
             await productViewModelFactory.UpdateCreateProductViewModelAsync(viewModel);
             return View(viewModel);
-        }
-
-        // TODO: MOVE OUT FROM HERE
-        private async Task SaveProductImagesAsync(Product product, List<IFormFile>? productImages)
-        {
-            if (productImages == null || productImages.Count == 0)
-            {
-                return;
-            }
-
-            var webRootPath = webHostEnvironment.WebRootPath;
-            var savePath = Path.Combine(
-                webRootPath,
-                "ExternalFiles",
-                "Products",
-                $"{product.Name}_{product.Id}");
-
-            Directory.CreateDirectory(savePath);
-
-            foreach (var productImage in productImages)
-            {
-                var imagePath = Path.Combine(savePath, productImage.FileName);
-
-                if (System.IO.File.Exists(imagePath))
-                {
-                    continue;
-                    //System.IO.File.Delete(imagePath);
-                }
-
-                using (var fileStream = new FileStream(imagePath, FileMode.Create))
-                {
-                    await productImage.CopyToAsync(fileStream);
-                }
-            }
         }
 
         [HttpGet]
@@ -198,7 +168,7 @@ namespace RMLXCast.Web.Controllers
 
                 await productService.UpdateProductAsync(product);
 
-                await SaveProductImagesAsync(product, viewModel.ProductImages);
+                await productImagesService.SaveProductImagesAsync(product, viewModel.ProductImages);
 
                 return RedirectToAction("Products", "AdminProducts");
             }

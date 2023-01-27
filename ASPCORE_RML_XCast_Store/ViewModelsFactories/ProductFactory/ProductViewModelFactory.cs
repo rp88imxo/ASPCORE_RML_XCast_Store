@@ -36,7 +36,7 @@ namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    ShortDescription = x.ShortDescription,
+                    ShortDescription = GetClampedDescription(x.ShortDescription, 36),
                     Price = x.Price,
                     ProductCategories = x.ProductCategories,
                     Stock = CalculateTotalStock(x.Stocks),
@@ -45,6 +45,20 @@ namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
             };
 
             return model;
+        }
+
+        private string? GetClampedDescription(string? description, int maxChars)
+        {
+            if (description == null)
+            {
+                return null;
+            }
+
+            maxChars = Math.Clamp(maxChars, 0, description.Length);
+
+            var resultString = description.Substring(0, maxChars);
+
+            return resultString;
         }
 
         public async Task UpdateCreateProductViewModelAsync(CreateProductViewModel viewModel)
@@ -70,7 +84,7 @@ namespace RMLXCast.Web.ViewModelsFactories.ProductFactory
             var categories = await productCategoryService.GetAllProductCategoriesAsync();
             var stock = await productStockService.GetAllStockForProductAsync(product.Id);
 
-            var selectedIds = product.ProductCategories.Select(x=> x.Id).ToList();
+            var selectedIds = product.ProductCategories.Select(x => x.Id).ToList();
 
             var model = new EditProductViewModel()
             {

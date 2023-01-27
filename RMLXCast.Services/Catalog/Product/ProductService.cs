@@ -64,7 +64,7 @@ namespace RMLXCast.Services.Catalog
                 .ToListAsync();
         }
 
-        public async Task<IList<Product>> GetPagedProductsAsync(int pageNumber, int pageSize, string searchString, ProductCategory? productCategory)
+        public async Task<IList<Product>> GetPagedProductsAsync(int pageNumber, int pageSize, string searchString, ProductCategory? productCategory, bool publishedOnly = true)
         {
             IQueryable<Product> query = dbContext.Products
                 .Include(x => x.Stocks)
@@ -81,6 +81,7 @@ namespace RMLXCast.Services.Catalog
             }
 
             return await query
+                .Where(x=> x.Published)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

@@ -39,12 +39,12 @@ namespace RMLXCast.Web.Controllers
             {
                 var user = userViewModelFactory.CreateApplicationUser(registerViewModel);
                 var creationResult = await _userManager.CreateAsync(user, registerViewModel.Password);
-
+               
                 if (creationResult.Succeeded)
                 {
                     logger.LogInformation($"Created a new user: {user.Email}:{user.FirstName}:{user.LastName}");
                     await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Products", "Shop");
                 }
                 else
                 {
@@ -63,8 +63,7 @@ namespace RMLXCast.Web.Controllers
         {
             if (_signInManager.IsSignedIn(User))
             {
-                // TODO: Redirect to account panel
-                return Ok("You are already logged in!");
+                return RedirectToAction("Products", "Shop");
             }
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
@@ -88,7 +87,7 @@ namespace RMLXCast.Web.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Products", "Shop");
                     }
                 }
                 else
@@ -106,7 +105,7 @@ namespace RMLXCast.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Products", "Shop");
         }
 
         public IActionResult AccessDenied(string? returnUrl = null)
