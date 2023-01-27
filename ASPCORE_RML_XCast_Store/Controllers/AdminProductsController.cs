@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RMLXCast.Core.Domain.Catalog;
@@ -7,9 +8,11 @@ using RMLXCast.Services.Catalog.Category;
 using RMLXCast.Web.Services.ProductImagesService;
 using RMLXCast.Web.ViewModels.Product;
 using RMLXCast.Web.ViewModelsFactories.ProductFactory;
+using System.Data;
 
 namespace RMLXCast.Web.Controllers
 {
+    [Authorize(Roles = "admin,moderator")]
     public class AdminProductsController : Controller
     {
         private readonly IProductViewModelFactory productViewModelFactory;

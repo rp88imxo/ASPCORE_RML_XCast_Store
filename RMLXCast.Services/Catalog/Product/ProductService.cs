@@ -92,6 +92,13 @@ namespace RMLXCast.Services.Catalog
             return await dbContext.Products.CountAsync();
         }
 
+        public async Task<int> GetTotalProductCountByCategoryAsync(int productCategoryId)
+        {
+            return await dbContext.Products
+                .Where(x => x.ProductCategories.Any(x => x.Id == productCategoryId))
+                .CountAsync();
+        }
+
         public async Task UpdateProductAsync(Product product)
         {
             dbContext.Products.Update(product);

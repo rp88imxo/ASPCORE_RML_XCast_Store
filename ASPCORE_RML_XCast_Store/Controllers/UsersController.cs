@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RMLXCast.Core.Domain.Catalog;
@@ -12,6 +13,7 @@ using System.Linq;
 
 namespace RMLXCast.Web.Controllers
 {
+    [Authorize(Roles = "admin,moderator")]
     public class UsersController : Controller
     {
         private readonly IApplicationUserService applicationUserService;

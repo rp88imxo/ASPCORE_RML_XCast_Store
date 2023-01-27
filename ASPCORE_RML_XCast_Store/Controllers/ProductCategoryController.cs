@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RMLXCast.Core.Domain.Catalog;
 using RMLXCast.Services.Catalog;
 using RMLXCast.Services.Catalog.Category;
 using RMLXCast.Web.ViewModels.Product_Category;
 using RMLXCast.Web.ViewModelsFactories.ProductCategoryFactory;
 using RMLXCast.Web.ViewModelsFactories.ProductFactory;
+using System.Data;
 
 namespace RMLXCast.Web.Controllers
 {
+    [Authorize(Roles = "admin,moderator")]
     public class ProductCategoryController : Controller
     {
         private readonly IProductCategoryFactory productCategoryFactory;

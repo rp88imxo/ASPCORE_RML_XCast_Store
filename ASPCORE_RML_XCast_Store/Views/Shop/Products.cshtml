@@ -123,7 +123,7 @@
                         </div>
                         @if (Model.viewShopProductViewModels.Count > 0)
                         {
-                            <pager class="pager-container" list="@Model.viewShopProductViewModels" options="@pagedListOptions" asp-action="Products" asp-controller="Shop" />
+                            <pager class="pager-container" list="@Model.viewShopProductViewModels" options="@pagedListOptions" asp-action="Products" asp-controller="Shop" asp-route-searchString="@Model.searchString" asp-route-categoryId="@Model.CategoryId"/>
                         }
 
                         @*<div class="pro-pagination-style text-center">

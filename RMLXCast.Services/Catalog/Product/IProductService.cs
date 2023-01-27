@@ -12,5 +12,6 @@ namespace RMLXCast.Services.Catalog
         Task<IList<Product>> GetPagedProductsAsync(int pageNumber, int pageSize);
         Task<int> GetTotalProductCountAsync();
         Task<IList<Product>> GetPagedProductsAsync(int pageNumber, int pageSize, string searchString, ProductCategory? productCategory, bool publishedOnly = true);
+        Task<int> GetTotalProductCountByCategoryAsync(int productCategoryId);
     }
 }

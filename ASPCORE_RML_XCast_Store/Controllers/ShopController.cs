@@ -28,7 +28,7 @@ namespace RMLXCast.Web.Controllers
         public async Task<IActionResult> Products(string? searchString, int? page, int? categoryId)
         {
             int currentPage = page != null ? Math.Max(0, page.Value) : 1;
-            int defaultPageSize = 10;
+            int defaultPageSize = 20;
 
             ProductCategory? productCategory = null;
             if (categoryId != null)
@@ -44,7 +44,9 @@ namespace RMLXCast.Web.Controllers
             }
 
             var products = await productService.GetPagedProductsAsync(currentPage, defaultPageSize, searchString ?? string.Empty, productCategory);
-            var totalProducts = await productService.GetTotalProductCountAsync();
+
+            int totalProducts = productCategory != null ? await productService.GetTotalProductCountByCategoryAsync(productCategory.Id) 
+                : await productService.GetTotalProductCountAsync();
 
             var productCategories = await productCategoryService.GetAllProductCategoriesAsync();
 
@@ -55,6 +57,7 @@ namespace RMLXCast.Web.Controllers
                 defaultPageSize,
                 totalProducts,
                 searchString);
+            model.CategoryId = productCategory?.Id;
 
             return View(model);
         }
