@@ -1,5 +1,10 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using RMLXCast.Core.Domain.Catalog;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Processing;
 
 namespace RMLXCast.Web.Services.ProductImagesService
 {
@@ -7,6 +12,9 @@ namespace RMLXCast.Web.Services.ProductImagesService
     public class ProductImagesService : IProductImagesService
     {
         private readonly IWebHostEnvironment webHostEnvironment;
+
+        private readonly int _requiredWidth = 600;
+        private readonly int _requiredHeight = 750;
 
         public ProductImagesService(IWebHostEnvironment webHostEnvironment)
         {
@@ -87,19 +95,61 @@ namespace RMLXCast.Web.Services.ProductImagesService
                 File.Delete(imagePath);
             }
 
+            var saveTasks = new List<Task>();
             foreach (var productImage in productImages)
             {
-                var imagePath = Path.Combine(savePath, productImage.FileName);
-
-                if (File.Exists(imagePath))
+                saveTasks.Add(Task.Run(async () =>
                 {
-                    continue;
+                    await SaveProductImageAsync(savePath, productImage);
+                }));
+            }
+
+            await Task.WhenAll(saveTasks);
+        }
+
+        private async Task SaveProductImageAsync(string savePathDir, IFormFile productImage)
+        {
+            var imagePath = Path.Combine(savePathDir, productImage.FileName);
+
+            if (File.Exists(imagePath))
+            {
+                return;
+            }
+
+            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                var stream = productImage.OpenReadStream();
+
+                var loadedImage = await Image.LoadAsync(stream);
+
+                if (loadedImage == null)
+                {
+                    return;
                 }
 
-                using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                var defaultWidth = loadedImage.Width;
+                var defaultHeight = loadedImage.Height;
+                //var aspectRatio = (float)defaultWidth / defaultHeight;
+
+                if (defaultWidth > _requiredWidth)
                 {
-                    await productImage.CopyToAsync(fileStream);
+                    loadedImage.Mutate(op =>
+                    {
+                        op.Resize(_requiredWidth, 0); 
+                    });
                 }
+                else if (defaultHeight > _requiredHeight)
+                {
+                    loadedImage.Mutate(op =>
+                    {
+                        op.Resize(0, _requiredHeight);
+                    });
+                }
+
+                await loadedImage.SaveAsJpegAsync(fileStream, new JpegEncoder()
+                {
+                    Quality = 50
+                }); 
             }
         }
 

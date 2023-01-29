@@ -69,6 +69,15 @@ namespace RMLXCast.Web.Controllers
                     return View(viewModel);
                 }
 
+                // TODO: Move to the config
+                var maxImages = 5;
+                if (viewModel.ProductImages?.Count > maxImages)
+                {
+                    ModelState.AddModelError("", $"Не более {maxImages} изображений.");
+
+                    return View(viewModel);
+                }
+
                 var product = new Product()
                 {
                     Name = viewModel.Name,
