@@ -12,13 +12,17 @@ namespace RMLXCast.Web.Services.ProductImagesService
     public class ProductImagesService : IProductImagesService
     {
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly ILogger<ProductImagesService> logger;
 
         private readonly int _requiredWidth = 600;
         private readonly int _requiredHeight = 750;
 
-        public ProductImagesService(IWebHostEnvironment webHostEnvironment)
+        public ProductImagesService(
+            IWebHostEnvironment webHostEnvironment,
+            ILogger<ProductImagesService> logger)
         {
             this.webHostEnvironment = webHostEnvironment;
+            this.logger = logger;
         }
 
         public IList<string> GetAllProductImagesUrls(Product product)
@@ -47,6 +51,14 @@ namespace RMLXCast.Web.Services.ProductImagesService
             }
 
             return resultImageUrls;
+        }
+
+        private string GetPhyisicalProductPath(Product product)
+        {
+            return Path.Combine(
+                "ExternalFiles",
+                "Products",
+                $"{product.Id}");
         }
 
         private string GetVirtualPathForProductImage(Product product, string name)
@@ -151,6 +163,19 @@ namespace RMLXCast.Web.Services.ProductImagesService
                     Quality = 50
                 }); 
             }
+        }
+
+        public void HandleProductDeleted(Product product)
+        {
+            var path = GetPhyisicalProductPath(product);
+
+            if (!Directory.Exists(path))
+            {
+                return;
+            }
+
+            Directory.Delete(path, true);
+            logger.Log(LogLevel.Information, $"Deleted product image files for product: {product.Name}");
         }
 
         private string GetPhysicalPathForProductImage(Product product)

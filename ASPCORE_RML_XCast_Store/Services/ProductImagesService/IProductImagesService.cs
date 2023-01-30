@@ -6,6 +6,7 @@ namespace RMLXCast.Web.Services.ProductImagesService
     {
         IList<string> GetAllProductImagesUrls(Product product);
         string? GetMainProductImageUrl(Product product);
+        void HandleProductDeleted(Product product);
         public Task SaveProductImagesAsync(Product product, List<IFormFile>? productImages);
     }
 }

@@ -13,7 +13,8 @@ namespace RMLXCast.Services.Catalog
     {
         private readonly ApplicationDbContext dbContext;
 
-        public ProductService(ApplicationDbContext dbContext)
+        public ProductService(
+            ApplicationDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
