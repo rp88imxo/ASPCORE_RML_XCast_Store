@@ -6,10 +6,14 @@
     ViewData["Title"] = "Products";
     ViewBag.PageHeaderLabel = "Товары";
 
+    ViewBag.searchString = Model.searchString;
+    ViewBag.CategoryId = Model.CategoryId;
+
     var pagedListOptions = PagedListRenderOptions.Bootstrap4PageNumbersPlusPrevAndNext;
     pagedListOptions.LinkToNextPageFormat = "Следующая";
     pagedListOptions.LinkToPreviousPageFormat = "Предыдущая";
 }
+
 <div class="shop-area section-padding-3 pt-70 pb-100">
     <div class="container-fluid">
         <div class="row flex-row-reverse">

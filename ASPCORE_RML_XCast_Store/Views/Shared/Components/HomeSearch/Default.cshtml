@@ -1,10 +1,11 @@
-﻿<!-- search start -->
+﻿
+<!-- search start -->
 <div class="search-content-wrap main-search-active">
     <a class="search-close"><i class="dlicon ui-1_simple-remove"></i></a>
     <div class="search-content">
-        <p>Start typing and press Enter to search</p>
-        <form class="search-form" action="#">
-            <input type="text" placeholder="Search">
+        <p>Введите нужный запрос и нажмите Enter</p>
+        <form class="search-form" method="get" asp-action="Products" asp-controller="Shop">
+            <input type="text" placeholder="Поиск..." name="searchString">
             <button class="button-search"><i class="dlicon ui-1_zoom"></i></button>
         </form>
     </div>
