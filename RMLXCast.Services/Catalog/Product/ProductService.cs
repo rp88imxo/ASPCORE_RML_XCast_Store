@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using RMLXCast.Core.Domain.Catalog;
 using RMLXCast.Database;
+using RMLXCast.Services.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +14,14 @@ namespace RMLXCast.Services.Catalog
     public class ProductService : IProductService
     {
         private readonly ApplicationDbContext dbContext;
+        private readonly IMediator mediator;
 
         public ProductService(
-            ApplicationDbContext dbContext)
+            ApplicationDbContext dbContext,
+            IMediator mediator)
         {
             this.dbContext = dbContext;
+            this.mediator = mediator;
         }
 
         #region DEFAULT_CRUD
@@ -116,6 +121,8 @@ namespace RMLXCast.Services.Catalog
 
             dbContext.Products.Remove(product);
             await dbContext.SaveChangesAsync();
+
+            await mediator.Publish(new ProductDeletedNotification(product));
 
             return true;
         }

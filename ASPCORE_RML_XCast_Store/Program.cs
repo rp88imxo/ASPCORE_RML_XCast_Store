@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RMLXCast.Core.Domain.Role;
@@ -14,6 +15,7 @@ using RMLXCast.Web.ViewModelsFactories.ProductFactory;
 using RMLXCast.Web.ViewModelsFactories.RolesFactory;
 using RMLXCast.Web.ViewModelsFactories.ShopProducts;
 using RMLXCast.Web.ViewModelsFactories.UserFactory;
+using System.Reflection;
 
 namespace ASPCORE_RML_XCast_Store
 {
@@ -48,6 +50,8 @@ namespace ASPCORE_RML_XCast_Store
                 options.Cookie.Name = "XCastSession";
                 options.Cookie.MaxAge = TimeSpan.FromDays(7.0);
             });
+
+            builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
             // -----CUSTOM SERVICES-----
 

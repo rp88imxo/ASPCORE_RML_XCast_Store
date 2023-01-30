@@ -53,14 +53,6 @@ namespace RMLXCast.Web.Services.ProductImagesService
             return resultImageUrls;
         }
 
-        private string GetPhyisicalProductPath(Product product)
-        {
-            return Path.Combine(
-                "ExternalFiles",
-                "Products",
-                $"{product.Id}");
-        }
-
         private string GetVirtualPathForProductImage(Product product, string name)
         {
             return Path.Combine(
@@ -167,7 +159,7 @@ namespace RMLXCast.Web.Services.ProductImagesService
 
         public void HandleProductDeleted(Product product)
         {
-            var path = GetPhyisicalProductPath(product);
+            var path = GetPhysicalPathForProductImage(product);
 
             if (!Directory.Exists(path))
             {
@@ -181,13 +173,13 @@ namespace RMLXCast.Web.Services.ProductImagesService
         private string GetPhysicalPathForProductImage(Product product)
         {
             var webRootPath = webHostEnvironment.WebRootPath;
-            var savePath = Path.Combine(
+            var path = Path.Combine(
                 webRootPath,
                 "ExternalFiles",
                 "Products",
                 $"{product.Id}");
 
-            return savePath;
+            return path;
         }
     }
 }
