@@ -62,6 +62,28 @@ namespace RMLXCast.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ProductDetail(int? productId)
+        {
+            if (productId == null)
+            {
+                return BadRequest();
+            }
+
+            var productIdValue = productId.Value;
+
+            var product = await productService.GetProductByIdAsync(productIdValue, true);
+
+            if (product == null)
+            {
+                return BadRequest();
+            }
+
+            var model = shopProductViewModelFactory.CreateShopProductDetailViewModel(product);
+
+            return View(model);
+        }
+
         public IActionResult ErrorNotFound()
         {
             return View();

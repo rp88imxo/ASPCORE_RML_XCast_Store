@@ -3,7 +3,7 @@
 @model ShopProductsPagedViewModel
 
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "Главная";
     ViewBag.PageHeaderLabel = "Товары";
 
     ViewBag.searchString = Model.searchString;
@@ -13,6 +13,19 @@
     pagedListOptions.LinkToNextPageFormat = "Следующая";
     pagedListOptions.LinkToPreviousPageFormat = "Предыдущая";
 }
+
+<div class="breadcrumb-area section-padding-1 breadcrumb-bg-1 breadcrumb-ptb-2">
+    <div class="container-fluid">
+        <div class="breadcrumb-content text-center">
+            <div class="breadcrumb-title">
+                <h2>@ViewBag.PageHeaderLabel</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="breadcrumb-area border-top-3 section-padding-1 breadcrumb-ptb-3">
+</div>*@
 
 <div class="shop-area section-padding-3 pt-70 pb-100">
     <div class="container-fluid">
@@ -78,7 +91,7 @@
                                             <div class="product-content-2 title-font-width-400 text-center">
                                                 <h3><a asp-action="ProductDetail" asp-controller="Shop" asp-route-productId="@product.Id">@product.Name</a></h3>
                                                 <div class="product-price">
-                                                    <span class="new-price">@product.PriceFormated ₽</span>
+                                                    <span class="new-price">@product.PriceFormated</span>
                                                 </div>
                                             </div>
                                         </div>

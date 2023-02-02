@@ -2,6 +2,7 @@
 
 @{
     ViewBag.PageHeaderLabel = ViewBag.PageHeaderLabel ?? "";
+    ViewBag.Title = ViewBag.Title ?? "Магазин";
 }
 
 <!DOCTYPE html>
@@ -9,7 +10,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>X-Cast Магазин</title>
+    <title>X-Cast @ViewBag.Title</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,17 +44,6 @@
     @await Component.InvokeAsync("SidebarCart")
     @await Component.InvokeAsync("HeaderAside")
 
-    <div class="breadcrumb-area section-padding-1 breadcrumb-bg-1 breadcrumb-ptb-2">
-        <div class="container-fluid">
-            <div class="breadcrumb-content text-center">
-                <div class="breadcrumb-title">
-                    <h2>@ViewBag.PageHeaderLabel</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     @RenderBody()
 
     @await Component.InvokeAsync("Footer")
@@ -69,8 +59,7 @@
                     <div class="row g-0">
                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                             <div class="quickview-slider-active owl-carousel">
-                                <a class="img-popup" href="~/toro/images/product/quickview-1.jpg"><img src="~/toro/images/product/quickview-1.jpg" alt=""><span>sold uot</span></a>
-                                <a class="img-popup" href="~/toro/images/product/quickview-2.jpg"><img src="~/toro/images/product/quickview-2.jpg" alt=""><span>sold uot</span></a>
+                                
                             </div>
                             <!-- Thumbnail Large Image End -->
                         </div>

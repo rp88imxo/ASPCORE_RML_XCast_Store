@@ -1,0 +1,116 @@
+﻿@using RMLXCast.Web.ViewModels.ShopProduct;
+@model ShopProductDetailViewModel
+
+@{
+    ViewBag.Title = $"{Model.Name}";
+}
+
+<div class="breadcrumb-area border-top-3 section-padding-1 breadcrumb-ptb-3">
+   </div>
+
+<div class="product-details-area section-padding-1 pb-90">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="product-details-tab">
+                    <div class="product-dec-right pro-dec-big-img-slider">
+
+                        @foreach (var imageUrl in Model.ProductImageUrls)
+                        {
+                            <div class="easyzoom-style">
+                                <div class="easyzoom easyzoom--overlay">
+                                    <a href="..\@imageUrl">
+                                        <img src="..\@imageUrl" alt="">
+                                    </a>
+                                </div>
+                                <a class="easyzoom-pop-up img-popup" href="..\@imageUrl"><i class="dlicon ui-1_zoom-in "></i></a>
+                            </div>
+                        }
+                    </div>
+                    <div class="product-dec-slider product-dec-left">
+                        @for (int i = 0; i < Model.ProductImageUrls.Count; i++)
+                        {
+                            var imageUrl = Model.ProductImageUrls[i];
+
+                            if (i == 0)
+                            {
+                                <div class="product-dec-small active">
+                                    <img src="..\@imageUrl" alt="">
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="product-dec-small">
+                                    <img src="..\@imageUrl" alt="">
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="product-details-col-72">
+                        <div class="product-details-content p-dec-content-edit">
+                            <h2 class="uppercase">@Model.Name</h2>
+                            <h3>@Model.PriceFormated</h3>
+                            <div class="product-details-peragraph">
+                                @Model.ShortDescription
+                            </div>
+                            <div class="product-details-action-wrap">
+                                <div class="product-details-quality">
+                                    <div class="cart-plus-minus">
+                                        <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
+                                    </div>
+                                </div>
+                                <div class="product-details-cart">
+                                    <a title="Add to cart" href="#">Купить</a>
+                                </div>
+                                <div class="product-details-wishlist">
+                                    <a title="Добавить в список желаний" href="#"><i class="fa fa-heart"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="description-review-area section-padding-7 pb-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="description-review-wrapper">
+                    <div class="description-review-topbar nav">
+                        <a class="active" data-bs-toggle="tab" href="#des-details1">Описание</a>
+                        <a data-bs-toggle="tab" href="#des-details2">Дополнительная информация</a>
+                        <a data-bs-toggle="tab" href="#des-details5">Информация о доставке</a>
+                    </div>
+                    <div class="tab-content description-review-bottom">
+                        <div id="des-details1" class="tab-pane active">
+                            <div class="product-description-wrapper">
+                                <div class="row">
+                                    <div class="product-dec-col-100">
+                                        @Model.ShortDescription
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="des-details2" class="tab-pane">
+                            <div class="additional-info">
+                                @Html.Raw(Model.FullDescription)
+                            </div>
+                        </div>
+                        <div id="des-details5" class="tab-pane">
+                            <div class="about-shiping-content">
+                                <p>Доставка осуществляется курьерской службой СДЭК. Точную информацию о возможности доставки в Ваш регион уточняйте у наших менеджеров</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

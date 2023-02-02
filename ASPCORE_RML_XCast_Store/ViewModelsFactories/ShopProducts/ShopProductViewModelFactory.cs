@@ -16,6 +16,21 @@ namespace RMLXCast.Web.ViewModelsFactories.ShopProducts
             this.productImagesService = productImagesService;
         }
 
+        public ShopProductDetailViewModel CreateShopProductDetailViewModel(Product product)
+        {
+            var model = new ShopProductDetailViewModel()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                ShortDescription = product.ShortDescription,
+                FullDescription = product.FullDescription,
+                PriceFormated = GetFormattedPrice(product.Price),
+                ProductImageUrls = productImagesService.GetAllProductImagesUrls(product),
+                StockAmount = product.Stocks.Sum(x => x.StockQuantity)
+            };
+
+            return model;
+        }
 
         public ShopProductsPagedViewModel CreateShopProductsPagedViewModel(ICollection<Product> products,
             ICollection<ProductCategory> productCategories,
@@ -52,7 +67,7 @@ namespace RMLXCast.Web.ViewModelsFactories.ShopProducts
         // TODO: Move to service
         private string GetFormattedPrice(decimal price)
         {
-            return price.ToString("G0");
+            return string.Format("{0:G0} ₽", price);
         }
     }
 }
