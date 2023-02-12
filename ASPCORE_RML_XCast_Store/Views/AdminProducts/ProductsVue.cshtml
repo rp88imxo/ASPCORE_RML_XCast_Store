@@ -11,8 +11,6 @@
             </div>
             <!-- PAGE-HEADER END -->
             <div id="app">
-
-
                 <div>
                     <input v-model="productModel.name" />
                     <input v-model="productModel.shortDescription" />
@@ -34,7 +32,6 @@
                         <button @@click="deleteProduct(product.id, index)">Delete</button>
                     </p>
                 </div>
-
             </div>
         </div>
         <!-- CONTAINER END -->
@@ -44,6 +41,6 @@
 @section Scripts{
         <script src="~/lib/vue/vue.global.js"></script>
         <script src="~/lib/axios/axios.min.js"></script>
-        <script type="module" src="~/js/admin/main.js"></script>
+        <script type="module" src="~/js/admin/productTest.js"></script>
 
             }

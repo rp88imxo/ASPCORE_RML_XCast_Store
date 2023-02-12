@@ -29,7 +29,7 @@ namespace RMLXCast.Web.Controllers
         {
             int currentPage = page != null ? Math.Max(0, page.Value) : 1;
             int defaultPageSize = 20;
-
+            
             ProductCategory? productCategory = null;
             if (categoryId != null)
             {
