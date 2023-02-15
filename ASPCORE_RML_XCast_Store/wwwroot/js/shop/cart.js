@@ -5,15 +5,11 @@ const app = createApp({
     data() {
         return {
             editing: false,
-            addedToCart: false,
-            objectIndex: 0,
-            id: 0,
             loading: false,
             cartProductModel: {
                 id: 0,
-                amount:1
-                },
-            products: []
+                amount: 1
+            },
         }
     },
     mounted() {
@@ -49,8 +45,8 @@ const app = createApp({
         },
     },
     computed: {
-        formatPrice: function () {
-            return "$ " + this.price;
+        formatPrice: function (price) {
+            return price + "₽";
         }
     }
 })

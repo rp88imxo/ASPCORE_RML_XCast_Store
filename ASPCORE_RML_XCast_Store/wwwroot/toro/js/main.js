@@ -520,11 +520,13 @@
     /*-------------------
         Magnific Popup
     ------------------------*/
-    $('.img-popup').magnificPopup({
-        type: 'image',
-        gallery: {
-            enabled: true
-        }
+    $(document).on('vue-loaded', function () {
+        $('.img-popup').magnificPopup({
+            type: 'image',
+            gallery: {
+                enabled: true
+            }
+        });
     });
     
     /*---------------------
@@ -960,34 +962,43 @@
     });
     
     // Instantiate EasyZoom instances
-    var $easyzoom = $('.easyzoom').easyZoom();
+
+    var $easyzoom;
+    $(document).on('vue-loaded', function () {
+        $easyzoom = $('.easyzoom').easyZoom();
+    });
     
     /*---------------------------------
         Quick view Slick Carousel
     -----------------------------------*/
-    $('.pro-dec-big-img-slider').slick({
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: false,
-        draggable: false,
-        fade: false,
-        asNavFor: '.product-dec-slider , .product-dec-slider-2',
+
+    $(document).on('vue-loaded', function () {
+        $('.pro-dec-big-img-slider').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            draggable: false,
+            fade: false,
+            asNavFor: '.product-dec-slider , .product-dec-slider-2',
+        });
     });
     
     /*---------------------------------
         Product details slider active
     -----------------------------------*/
-    $('.product-dec-slider').slick({
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        vertical: true,
-        asNavFor: '.pro-dec-big-img-slider',
-        dots: false,
-        focusOnSelect: true,
-        fade: false,
-        prevArrow: '<span class="pro-dec-icon pro-dec-prev"><i class="dlicon arrows-1_tail-up"></i></span>',
-        nextArrow: '<span class="pro-dec-icon pro-dec-next"><i class="dlicon arrows-1_tail-down"></i></span>',
-        responsive: [{
+
+    $(document).on('vue-loaded', function () {
+        $('.product-dec-slider').slick({
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            vertical: true,
+            asNavFor: '.pro-dec-big-img-slider',
+            dots: false,
+            focusOnSelect: true,
+            fade: false,
+            prevArrow: '<span class="pro-dec-icon pro-dec-prev"><i class="dlicon arrows-1_tail-up"></i></span>',
+            nextArrow: '<span class="pro-dec-icon pro-dec-next"><i class="dlicon arrows-1_tail-down"></i></span>',
+            responsive: [{
                 breakpoint: 767,
                 settings: {
                 }
@@ -999,25 +1010,28 @@
                     slidesToShow: 2,
                 }
             }
-        ]
+            ]
+        });
     });
     
     /*----------------------------------
         Product details slider 2 active
     -----------------------------------*/
-    $('.product-dec-slider-2').slick({
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        asNavFor: '.pro-dec-big-img-slider',
-        dots: false,
-        focusOnSelect: true,
-        fade: false,
-        prevArrow: '<span class="pro-dec-icon pro-dec-prev"><i class="dlicon arrows-1_tail-left"></i></span>',
-        nextArrow: '<span class="pro-dec-icon pro-dec-next"><i class="dlicon arrows-1_tail-right"></i></span>',
-        responsive: [{
+
+    $(document).on('vue-loaded', function () {
+        $('.product-dec-slider-2').slick({
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            asNavFor: '.pro-dec-big-img-slider',
+            dots: false,
+            focusOnSelect: true,
+            fade: false,
+            prevArrow: '<span class="pro-dec-icon pro-dec-prev"><i class="dlicon arrows-1_tail-left"></i></span>',
+            nextArrow: '<span class="pro-dec-icon pro-dec-next"><i class="dlicon arrows-1_tail-right"></i></span>',
+            responsive: [{
                 breakpoint: 767,
                 settings: {
-                    
+
                 }
             },
             {
@@ -1027,96 +1041,100 @@
                     slidesToShow: 2,
                 }
             }
-        ]
+            ]
+        });
     });
-    
-    /* Product details sidebar active */
-    $('.pro-details-sidebar-active').owlCarousel({
-        loop: true,
-        nav: true,
-        navText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>'],
-        autoplay: false,
-        autoplayTimeout: 5000,
-        item: 1,
-        responsive: {
-            0: {
-                items: 1
-            },
-            576: {
-                items: 1
-            },
-            768: {
-                items: 1
-            },
-            992: {
-                items: 1
+
+    $(document).on('vue-loaded', function () {
+        /* Product details sidebar active */
+        $('.pro-details-sidebar-active').owlCarousel({
+            loop: true,
+            nav: true,
+            navText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>'],
+            autoplay: false,
+            autoplayTimeout: 5000,
+            item: 1,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                576: {
+                    items: 1
+                },
+                768: {
+                    items: 1
+                },
+                992: {
+                    items: 1
+                }
             }
-        }
-    })
-    
-    /* Related product active */
-    $('.related-product-active').owlCarousel({
-        loop: true,
-        nav: false,
-        autoplay: false,
-        autoplayTimeout: 5000,
-        item: 5,
-        margin: 20,
-        responsive: {
-            0: {
-                items: 1
-            },
-            576: {
-                items: 2
-            },
-            768: {
-                items: 2
-            },
-            992: {
-                items: 3
-            },
-            1200: {
-                items: 4
-            },
-            1500: {
-                items: 5
+        })
+
+        /* Related product active */
+        $('.related-product-active').owlCarousel({
+            loop: true,
+            nav: false,
+            autoplay: false,
+            autoplayTimeout: 5000,
+            item: 5,
+            margin: 20,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                576: {
+                    items: 2
+                },
+                768: {
+                    items: 2
+                },
+                992: {
+                    items: 3
+                },
+                1200: {
+                    items: 4
+                },
+                1500: {
+                    items: 5
+                }
             }
-        }
-    })
-    
-    /* Related product active 2 */
-    $('.related-product-active-2').owlCarousel({
-        loop: true,
-        nav: false,
-        autoplay: false,
-        autoplayTimeout: 5000,
-        item: 5,
-        margin: 20,
-        responsive: {
-            0: {
-                items: 1
-            },
-            576: {
-                items: 2
-            },
-            768: {
-                items: 2
-            },
-            992: {
-                items: 2
-            },
-            1200: {
-                items: 3
-            },
-            1366: {
-                items: 3
-            },
-            1500: {
-                items: 5
+        })
+
+        /* Related product active 2 */
+        $('.related-product-active-2').owlCarousel({
+            loop: true,
+            nav: false,
+            autoplay: false,
+            autoplayTimeout: 5000,
+            item: 5,
+            margin: 20,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                576: {
+                    items: 2
+                },
+                768: {
+                    items: 2
+                },
+                992: {
+                    items: 2
+                },
+                1200: {
+                    items: 3
+                },
+                1366: {
+                    items: 3
+                },
+                1500: {
+                    items: 5
+                }
             }
-        }
-    })
-    
+        })
+
+    });
+
     /*------------------------
         Sidebar sticky active
     -------------------------- */

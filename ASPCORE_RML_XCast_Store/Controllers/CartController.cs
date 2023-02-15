@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RMLXCast.Core.Domain.Cart;
 using RMLXCast.Database;
+using RMLXCast.Services.Catalog;
 using RMLXCast.Web.Services.Cart;
 using RMLXCast.Web.ViewModels.Cart;
 
@@ -11,13 +12,16 @@ namespace RMLXCast.Web.Controllers
     {
         private readonly ApplicationDbContext dbContext;
         private readonly ICartService cartService;
+        private readonly IProductService productService;
 
         public CartApiController(
             ApplicationDbContext dbContext,
-            ICartService cartService)
+            ICartService cartService,
+            IProductService productService)
         {
             this.dbContext = dbContext;
             this.cartService = cartService;
+            this.productService = productService;
         }
 
         [Route("GetCartProducts")]
@@ -38,11 +42,18 @@ namespace RMLXCast.Web.Controllers
 
         [Route("AddProductToCart")]
         [HttpPost]
-        public IActionResult AddProductToCart([FromBody] CartProductViewModel cartProductViewModel)
+        public async Task<IActionResult> AddProductToCart([FromBody] CartProductViewModel cartProductViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest("Bad model");
+            }
+
+            var product =  await productService.GetProductByIdAsync(cartProductViewModel.Id, false);
+
+            if (product == null || !product.Published)
+            {
+                return BadRequest("No such product");
             }
 
             var cartProduct = new CartProduct()

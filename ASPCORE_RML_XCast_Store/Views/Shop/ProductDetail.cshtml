@@ -60,14 +60,15 @@
                                     @Model.ShortDescription
                                 </div>
                                 <div class="product-details-action-wrap">
-                                    <div class="product-details-quality">
+                                    <div class="product-details-quality" v-if="!addedToCart">
                                         <div class="cart-plus-minus">
                                             <input class="cart-plus-minus-box" type="text" name="qtybutton" id="productAmount" value="1">
                                         </div>
                                     </div>
                                     <input hidden readonly type="number" id="productId" value="@Model.Id">
                                     <div class="product-details-cart">
-                                        <a title="Add to cart" @@click="addToCart">Купить</a>
+                                        <a @@click="addToCart" v-if="!addedToCart">Купить</a>
+                                        <a asp-action="Cart" asp-controller="Shop" v-else>Перейти к корзине</a>
                                     </div>
                                 </div>
                             </div>

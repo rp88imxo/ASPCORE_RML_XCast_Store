@@ -84,6 +84,12 @@ namespace RMLXCast.Web.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult Cart()
+        {
+            return View();
+        }
+
         public IActionResult ErrorNotFound()
         {
             return View();
