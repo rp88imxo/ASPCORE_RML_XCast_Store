@@ -4,6 +4,7 @@ using RMLXCast.Database;
 using RMLXCast.Services.Catalog;
 using RMLXCast.Web.Services.Cart;
 using RMLXCast.Web.ViewModels.Cart;
+using RMLXCast.Web.ViewModelsFactories.CartFactory;
 
 namespace RMLXCast.Web.Controllers
 {
@@ -13,15 +14,34 @@ namespace RMLXCast.Web.Controllers
         private readonly ApplicationDbContext dbContext;
         private readonly ICartService cartService;
         private readonly IProductService productService;
+        private readonly ICartViewModelFactory cartViewModelFactory;
 
         public CartApiController(
             ApplicationDbContext dbContext,
             ICartService cartService,
-            IProductService productService)
+            IProductService productService,
+            ICartViewModelFactory cartViewModelFactory)
         {
             this.dbContext = dbContext;
             this.cartService = cartService;
             this.productService = productService;
+            this.cartViewModelFactory = cartViewModelFactory;
+        }
+
+        [Route("GetCart")]
+        [HttpGet]
+        public async Task<IActionResult> GetCart()
+        {
+            var cartProducts = cartService.GetCartProducts(HttpContext.Session);
+
+            if (cartProducts == null)
+            {
+                return Ok();
+            }
+
+            var cartViewModel = await cartViewModelFactory.GetCartViewModelAsync(cartProducts);
+
+            return Ok(cartViewModel);
         }
 
         [Route("GetCartProducts")]
@@ -42,7 +62,7 @@ namespace RMLXCast.Web.Controllers
 
         [Route("AddProductToCart")]
         [HttpPost]
-        public async Task<IActionResult> AddProductToCart([FromBody] CartProductViewModel cartProductViewModel)
+        public async Task<IActionResult> AddProductToCart([FromBody] SessionCartProductViewModel cartProductViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -51,9 +71,12 @@ namespace RMLXCast.Web.Controllers
 
             var product =  await productService.GetProductByIdAsync(cartProductViewModel.Id, false);
 
-            if (product == null || !product.Published)
+            if (product == null || !product.Published 
+                || cartProductViewModel.Amount <= 0 ||
+                cartProductViewModel.Amount > product.OrderMaximumQuantity 
+                || cartProductViewModel.Amount < product.OrderMinimumQuantity)
             {
-                return BadRequest("No such product");
+                return BadRequest("Failed to add to the cart!");
             }
 
             var cartProduct = new CartProduct()
@@ -63,6 +86,52 @@ namespace RMLXCast.Web.Controllers
             };
 
             cartService.AddProductToCart(HttpContext.Session, cartProduct);
+
+            return Ok();
+        }
+
+        [Route("UpdateProductCart")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateProductCart([FromBody] UpdateCartViewModel updateCartViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Bad model");
+            }
+
+            foreach (var sessionProduct in updateCartViewModel.SessionCartProducts)
+            {
+                var product = await productService.GetProductByIdAsync(sessionProduct.ProductId, false);
+
+                if (product == null || !product.Published)
+                {
+                    cartService.ClearCart(HttpContext.Session);
+                    return BadRequest("Failed to update cart!");
+                }
+            }
+
+            cartService.UpdateProductCart(HttpContext.Session, updateCartViewModel);
+
+            return Ok();
+        }
+
+        [Route("DeleteProductFromCart")]
+        [HttpPost]
+        public async Task<IActionResult> DeleteProductFromCart([FromBody] SessionCartProductViewModel cartProductViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Bad model");
+            }
+
+            var product = await productService.GetProductByIdAsync(cartProductViewModel.Id, false);
+
+            if (product == null || !product.Published)
+            {
+                return BadRequest("Failed to delete product from the cart!");
+            }
+
+            cartService.DeleteProductFromCart(HttpContext.Session, cartProductViewModel);
 
             return Ok();
         }
