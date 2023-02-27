@@ -32,6 +32,19 @@ namespace RMLXCast.Services.Catalog
             await dbContext.SaveChangesAsync();
         }
 
+        public async Task<List<Product>?> GetProductsByIdAsync(ICollection<int> productIds, bool includeStocks)
+        {
+            var products = dbContext.Products;
+
+            var res = await products
+                .Include(x=> x.Stocks)
+                .Include(x=> x.ProductCategories)
+                .Where(x=> productIds.Contains(x.Id))
+                .ToListAsync();
+
+            return res;
+        }
+
         public async Task<Product?> GetProductByIdAsync(int productId, bool includeStocks)
         {
             var products = dbContext.Products;

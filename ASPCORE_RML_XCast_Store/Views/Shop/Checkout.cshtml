@@ -1,0 +1,206 @@
+﻿@using RMLXCast.Web.ViewModels.Checkout;
+@model CheckoutProductsViewModel
+
+@{
+    ViewBag.Title = "Оформление заказа";
+
+    var totalPrice = GetFormattedPrice(CalculateFinalPrice(Model.Products));
+
+    string GetFormattedPrice(decimal price)
+    {
+        return string.Format("{0:G0} ₽", price);
+    }
+
+    decimal CalculateFinalPrice(IEnumerable<CheckoutViewProductViewModel> products )
+    {
+        return products.Sum(x => x.PricePerSlot * x.Amount);
+    }
+}
+
+<div class="breadcrumb-area section-padding-1 bg-gray breadcrumb-ptb-1">
+    <div class="container-fluid">
+        <div class="breadcrumb-content text-center">
+            <div class="breadcrumb-title">
+                <h2>Оформление заказа</h2>
+            </div>
+            <ul>
+                <li>
+                    <a asp-action="Products" asp-controller="Shop">Главная</a>
+                </li>
+                <li><span> &gt; </span></li>
+                <li class="active"> Оформление заказа </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- checkout start -->
+<div class="checkout-main-area pt-100 pb-100">
+    <form method="post" asp-action="Checkout" asp-controller="Shop" id="CheckoutForm">
+        <div class="container">
+            @* <div class="customer-zone mb-30">
+            <p class="cart-page-title">Have a coupon? <a class="checkout-click" href="#">Click here to enter your code</a></p>
+            <div class="checkout-login-info">
+            <p>If you have a coupon code, please apply it below.</p>
+            <form action="#">
+            <input type="text" placeholder="Coupon code">
+            <input type="submit" value="Apply Coupon">
+            </form>
+            </div>
+            </div>*@
+            <div class="checkout-wrap">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="billing-info-wrap mr-100">
+                            <h3>Детали реквизитов</h3>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="billing-info mb-25">
+                                        <label asp-for="FirstName">Имя <abbr class="required" title="required">*</abbr></label>
+                                        <input asp-for="FirstName">
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="billing-info mb-25">
+                                        <label asp-for="LastName">Фамилия <abbr class="required" title="required">*</abbr></label>
+                                        <input asp-for="LastName" type="text">
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                @*<div class="col-lg-12">
+                                <div class="billing-info mb-25">
+                                <label>Название ко (optional) <abbr class="required" title="required">*</abbr></label>
+                                <input type="text">
+                                </div>
+                                </div>*@
+                                <div class="col-lg-12">
+                                    <div class="billing-info mb-25">
+                                        <label asp-for="ShippmentAddress.Country">Страна <abbr class="required" title="required">*</abbr></label>
+                                        <input asp-for="ShippmentAddress.Country" type="text">
+                                        <span asp-validation-for="ShippmentAddress.Country" class="text-danger"></span>
+                                    </div>
+
+                                    @* <div class="billing-select mb-25">
+                                    <label>Country <abbr class="required" title="required">*</abbr></label>
+                                    <select class="select-active">
+                                    <option>Azerbaijan</option>
+                                    <option>Bahamas</option>
+                                    <option>Bahrain</option>
+                                    <option>Bangladesh</option>
+                                    <option>Barbados</option>
+                                    </select>
+                                    </div>*@
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="billing-info mb-25">
+                                        <label>Адресс <abbr class="required" title="required">*</abbr></label>
+                                        <input asp-for="ShippmentAddress.Address1" class="billing-address" placeholder="Название улицы и номер дома" type="text">
+                                        <input asp-for="ShippmentAddress.Address2" placeholder="Квартира, подьезд" type="text">
+                                        <span asp-validation-for="ShippmentAddress.Address2" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="billing-info mb-25">
+                                        <label asp-for="ShippmentAddress.City">Город <abbr class="required" title="required">*</abbr></label>
+                                        <input asp-for="ShippmentAddress.City">
+                                        <span asp-validation-for="ShippmentAddress.City" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                @* <div class="col-lg-12">
+                                <div class="billing-select mb-25">
+                                <label>District <abbr class="required" title="required">*</abbr></label>
+                                <select class="select-active">
+                                <option>Azerbaijan</option>
+                                <option>Bahamas</option>
+                                <option>Bahrain</option>
+                                <option>Bangladesh</option>
+                                <option>Barbados</option>
+                                </select>
+                                </div>
+                                </div>*@
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="billing-info mb-25">
+                                        <label asp-for="ShippmentAddress.ZipPostalCode">ZIP код <abbr class="required" title="required">*</abbr></label>
+                                        <input asp-for="ShippmentAddress.ZipPostalCode">
+                                        <span asp-validation-for="ShippmentAddress.ZipPostalCode" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                @*<div class="col-lg-12 col-md-12">
+                                <div class="billing-info mb-25">
+                                <label>Phone <abbr class="required" title="required">*</abbr></label>
+                                <input type="text">
+                                </div>
+                                </div>*@
+                                @* <div class="col-lg-12 col-md-12">
+                                <div class="billing-info mb-25">
+                                <label>Email Address <abbr class="required" title="required">*</abbr></label>
+                                <input type="text">
+                                </div>
+                                </div>*@
+                            </div>
+                            <div class="additional-info-wrap">
+                                <h3>Дополнительная информация</h3>
+                                <label asp-for="OrderNote">Детали к заказу</label>
+                                <textarea placeholder="Заметка к заказу, доставке. " name="message"></textarea>
+                                <span asp-validation-for="OrderNote" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="your-order-area">
+                            <h3>Ваш заказ</h3>
+                            <div class="your-order-wrap gray-bg-4">
+                                <div class="your-order-info-wrap">
+                                    <div class="your-order-info">
+                                        <ul>
+                                            <li>Товар <span>Итого</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="your-order-middle">
+                                        <ul>
+                                            @foreach (var product in Model.Products)
+                                            {
+                                                <li>@product.ProductName X @product.Amount <span>@GetFormattedPrice(product.PricePerSlot) </span></li>
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div class="your-order-info order-subtotal">
+                                        <ul>
+                                            <li>Предварительная цена <span>@totalPrice </span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="your-order-info order-total">
+                                        <ul>
+                                            <li>Конечная цена <span>@totalPrice </span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="payment-method">
+                                    <h5>Прямой перевод в банк</h5>
+                                    <p>Оплата заказа осуществляется за счет прямого перевода на наш банковский счет. После оплаты заказ будет переведен в статус отгрузки</p>
+                                </div>
+                               @* <div class="condition-wrap">
+                                    <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a></p>
+                                    <div class="condition-form mb-25">
+                                        <input type="checkbox">
+                                        <span>I have read and agree to the website <a href="#">terms and conditions</a><span class="star">*</span></span>
+                                    </div>
+                                </div>*@
+                            </div>
+                            <div class="Place-order mt-30">
+                                <button type="submit">Потвердить заказ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- checkout end -->
+@section Scripts{
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

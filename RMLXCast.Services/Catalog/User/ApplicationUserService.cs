@@ -19,8 +19,21 @@ namespace RMLXCast.Services.Catalog.User
             this.userManager = userManager;
         }
 
+        public async Task<ApplicationUser> GetUserWithAddress(ApplicationUser applicationUser)
+        {
+            var user = await userManager.Users
+                 .Include(x => x.Addresses)
+                 .SingleOrDefaultAsync(x => x.Id == applicationUser.Id);
+
+            return user!;
+        }
+
         public async Task<IList<ApplicationUser>> GetPagedUsersAsync(int pageNumber, int pageSize)
         {
+           
+          
+
+
             return await userManager.Users
                 .Include(x => x.Addresses)
                 .Include(x => x.Orders)

@@ -30164,6 +30164,20 @@ h3.cart-page-title {
   text-align: center;
 }
 
+.your-order-area .Place-order button {
+    background-color: #262626;
+    display: block;
+    cursor: pointer;
+    padding: 22px 50px 21px;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+}
+
+    .your-order-area .Place-order button:hover {
+        background-color: #fc4f4f;
+    }
+
 .your-order-area .Place-order a:hover {
   background-color: #fc4f4f;
 }

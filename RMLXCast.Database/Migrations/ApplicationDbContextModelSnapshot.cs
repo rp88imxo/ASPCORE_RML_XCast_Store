@@ -172,7 +172,7 @@ namespace RMLXCast.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("RMLXCast.Core.Domain.Catalog.ProductCategory", b =>
@@ -195,7 +195,7 @@ namespace RMLXCast.Database.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("ProductCategories", (string)null);
 
                     b.HasData(
                         new
@@ -240,7 +240,7 @@ namespace RMLXCast.Database.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Stocks");
+                    b.ToTable("Stocks", (string)null);
                 });
 
             modelBuilder.Entity("RMLXCast.Core.Domain.Orders.Order", b =>
@@ -273,7 +273,7 @@ namespace RMLXCast.Database.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("RMLXCast.Core.Domain.Orders.OrderItem", b =>
@@ -299,7 +299,7 @@ namespace RMLXCast.Database.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("RMLXCast.Core.Domain.Role.ApplicationUserRole", b =>
@@ -373,7 +373,7 @@ namespace RMLXCast.Database.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("RMLXCast.Core.Domain.User.ApplicationUser", b =>

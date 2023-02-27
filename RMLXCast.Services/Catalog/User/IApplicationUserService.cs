@@ -6,5 +6,6 @@ namespace RMLXCast.Services.Catalog.User
     {
         Task<IList<ApplicationUser>> GetPagedUsersAsync(int pageNumber, int pageSize);
         Task<int> GetTotalUsersAsync();
+        Task<ApplicationUser> GetUserWithAddress(ApplicationUser applicationUser);
     }
 }
