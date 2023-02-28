@@ -4,7 +4,7 @@ namespace RMLXCast.Web.ViewModels.Checkout
 {
     public class CheckoutProductsViewModel
     {
-        public IList<CheckoutViewProductViewModel> Products { get; set; } = null!;
+        public IList<CheckoutViewProductViewModel>? Products { get; set; } = null!;
         [Required]
         public string FirstName { get; set; }
         [Required]

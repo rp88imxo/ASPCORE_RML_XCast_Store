@@ -34,6 +34,7 @@ namespace RMLXCast.Web.ViewModelsFactories.CheckoutFactory
             var address = applicationUser.Addresses.FirstOrDefault();
             if (address != null)
             {
+                shippmentAddressViewModel.Id = address.Id;
                 shippmentAddressViewModel.Country = address.Country;
                 shippmentAddressViewModel.Address1 = address.Address1;
                 shippmentAddressViewModel.Address2 = address.Address2;

@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using RMLXCast.Core.Domain.Role;
 using RMLXCast.Core.Domain.User;
 using RMLXCast.Database;
+using RMLXCast.Services.AddressService;
 using RMLXCast.Services.Catalog;
 using RMLXCast.Services.Catalog.Category;
 using RMLXCast.Services.Catalog.Stocks;
 using RMLXCast.Services.Catalog.User;
+using RMLXCast.Services.Orders.OrderService;
 using RMLXCast.Web.Initializers;
 using RMLXCast.Web.Services.Cart;
 using RMLXCast.Web.Services.ProductImagesService;
@@ -72,6 +74,8 @@ namespace ASPCORE_RML_XCast_Store
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICartViewModelFactory, CartViewModelFactory>();
             builder.Services.AddScoped<ICheckoutViewModelFactory, CheckoutViewModelFactory>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IAddressService, AddressService>();
 
             // -----CUSTOM SERVICES-----
 

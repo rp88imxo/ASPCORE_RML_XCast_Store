@@ -1,0 +1,30 @@
+﻿@using RMLXCast.Web.ViewModels.Checkout;
+@model CheckoutProductsViewModel
+
+@{
+    ViewBag.Title = "Успешное оформление заказа";
+}
+
+
+<div class="error-area bg-gray-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="error-content text-center">
+                            <h3>Ваш заказ успешно оформлен!</h3>
+                            <p>Вы можете просмотреть текущий статус заказа во вкладке управления заказами в вашем личном кабинете.</p>
+                            <div class="btn-style-1 text-center">
+                                <a class="btn-border-black2" asp-action="Index" asp-asp-controller="CustomerAccount">
+                                    <div class="btn-viewmore-normal btn-ptb-3 btn-viewmore-bg-transparent btn-viewmore-common btn-font-3">
+                                        <span>В личный кабинет</span>
+                                    </div>
+                                    <div class="btn-viewmore-hover btn-ptb-3 btn-viewmore-common btn-hover-transition btn-font-3">
+                                <span>В личный кабинет</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

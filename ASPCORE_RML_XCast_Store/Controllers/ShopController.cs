@@ -2,12 +2,16 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RMLXCast.Core.Domain.Catalog;
+using RMLXCast.Core.Domain.ShippmentAddress;
 using RMLXCast.Core.Domain.User;
+using RMLXCast.Services.AddressService;
 using RMLXCast.Services.Catalog;
 using RMLXCast.Services.Catalog.Category;
 using RMLXCast.Services.Catalog.User;
+using RMLXCast.Services.Orders.OrderService;
 using RMLXCast.Web.Services.Cart;
 using RMLXCast.Web.ViewModels;
+using RMLXCast.Web.ViewModels.Checkout;
 using RMLXCast.Web.ViewModelsFactories.CheckoutFactory;
 using RMLXCast.Web.ViewModelsFactories.ShopProducts;
 using System.Diagnostics;
@@ -24,6 +28,8 @@ namespace RMLXCast.Web.Controllers
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IApplicationUserService applicationUserService;
+        private readonly IAddressService addressService;
+        private readonly IOrderService orderService;
 
         public ShopController(
             IProductCategoryService productCategoryService,
@@ -33,7 +39,9 @@ namespace RMLXCast.Web.Controllers
             ICheckoutViewModelFactory checkoutViewModelFactory,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IApplicationUserService applicationUserService
+            IApplicationUserService applicationUserService,
+            IAddressService addressService,
+            IOrderService orderService
             )
         {
             this.productCategoryService = productCategoryService;
@@ -44,6 +52,8 @@ namespace RMLXCast.Web.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.applicationUserService = applicationUserService;
+            this.addressService = addressService;
+            this.orderService = orderService;
         }
 
         public async Task<IActionResult> Products(string? searchString, int? page, int? categoryId)
@@ -144,6 +154,83 @@ namespace RMLXCast.Web.Controllers
             var model = checkoutViewModelFactory.CreateCheckoutProductsViewModel(user, products, cartProducts);
 
             return View(model);
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Checkout(CheckoutProductsViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var cartProducts = cartService.GetCartProducts(HttpContext.Session);
+
+            if (cartProducts == null)
+            {
+                return RedirectToAction("Products", "Shop");
+            }
+
+            var productIds = cartProducts.Select(x => x.Id).ToList();
+
+            var products = await productService.GetProductsByIdAsync(productIds, true);
+
+            if (products == null)
+            {
+                return RedirectToAction("Products", "Shop");
+            }
+
+            var someProductsMissing =
+                products.Any(x => !productIds.Contains(x.Id))
+                || products.RemoveAll(x => !x.Published || !x.Stocks.Any(x => x.StockQuantity > 0)) > 0;
+
+            if (someProductsMissing)
+            {
+                cartService.ClearCart(HttpContext.Session);
+                return RedirectToAction("Products", "Shop");
+            }
+
+            var user = await userManager.GetUserAsync(HttpContext.User);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            Address? address = null;
+            if (model.ShippmentAddress.Id == -1)
+            {
+                var newAddress = new Address()
+                {
+                    Address1 = model.ShippmentAddress.Address1,
+                    Address2 = model.ShippmentAddress.Address2,
+                    ApplicationUser = user,
+                    City = model.ShippmentAddress.City,
+                    Country = model.ShippmentAddress.Country,
+                    ZipPostalCode = model.ShippmentAddress.ZipPostalCode,
+                    DeletedByUser = false
+                };
+
+                address = await addressService.CreateAddressAsync(newAddress);
+            }
+            else
+            {
+                address = await addressService.GetAddressByIdAsync(model.ShippmentAddress.Id);
+            }
+
+            if (address == null)
+            {
+                cartService.ClearCart(HttpContext.Session);
+                return RedirectToAction("Products", "Shop");
+            }
+
+            // TODO: Create an Order
+
+            await orderService.CreateOrderAsync(products, cartProducts, user, address);
+
+            return View("OrderPlaced", model);
         }
 
         public IActionResult ErrorNotFound()
