@@ -1,7 +1,7 @@
 ﻿
 const { createApp } = Vue
 
-const app = createApp({
+const sidebarCart = createApp({
     data() {
         return {
             editing: false,
@@ -29,7 +29,7 @@ const app = createApp({
         }
     },
     mounted() {
-        $(document).trigger('vue-cart-loaded');
+        $(document).trigger('vue-minicart-loaded');
         this.getCart();
     },
     methods: {
@@ -129,9 +129,12 @@ const app = createApp({
         formatPrice(cartProduct) {
             return cartProduct.pricePerSlot + " ₽";
         },
+        formatPriceWithAmount(cartProduct) {
+            return cartProduct.amount + " x " + cartProduct.pricePerSlot + " ₽";
+        },
         formatPriceOnly(valueToFormat) {
             return valueToFormat + " ₽";
-        }
+        },
     },
     computed: {
         startPriceComputed() {
@@ -158,4 +161,4 @@ const app = createApp({
     }
 })
 
-app.mount('#cart')
+sidebarCart.mount('#sidebarCart')

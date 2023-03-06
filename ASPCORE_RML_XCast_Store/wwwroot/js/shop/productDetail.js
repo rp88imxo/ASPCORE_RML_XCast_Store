@@ -17,7 +17,7 @@ const app = createApp({
         }
     },
     mounted() {
-        $(document).trigger('vue-loaded');
+        $(document).trigger('product-detail-loaded');
     },
     methods: {
         addToCart() {
@@ -34,6 +34,10 @@ const app = createApp({
 
                     if (res.status == 200) {
                         this.addedToCart = true;
+                      
+                        document.getElementById('updateCartBtn').click();
+                        // TODO: OPEN A SIDEBAR CART
+
                         alert('Товар добавлен в корзину!');
                     }
                     else if (res.status == 400) {

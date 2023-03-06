@@ -3,6 +3,12 @@
     
     
     /*====== SidebarSearch ======*/
+
+    $(document).on('vue-minicart-loaded', function ()
+    {
+        miniCart();
+    });
+
     function sidebarSearch() {
         var searchTrigger = $('.search-active'),
             endTriggersearch = $('.search-close'),
@@ -45,7 +51,7 @@
             wrapper2.removeClass('overlay-active');
         });
     };
-    miniCart();
+    
     
     /*====== QuickInfo ======*/
     function quickInfo() {
@@ -494,7 +500,7 @@
     	Cart Plus Minus Button
     ------------------------------ */
 
-    $(document).on('vue-loaded', function () {
+    $(document).on('product-detail-loaded', function () {
         var CartPlusMinus = $('.cart-plus-minus');
         CartPlusMinus.prepend('<div class="dec qtybutton">-</div>');
         CartPlusMinus.append('<div class="inc qtybutton">+</div>');
@@ -520,7 +526,7 @@
     /*-------------------
         Magnific Popup
     ------------------------*/
-    $(document).on('vue-loaded', function () {
+    $(document).on('product-detail-loaded', function () {
         $('.img-popup').magnificPopup({
             type: 'image',
             gallery: {
@@ -964,7 +970,7 @@
     // Instantiate EasyZoom instances
 
     var $easyzoom;
-    $(document).on('vue-loaded', function () {
+    $(document).on('product-detail-loaded', function () {
         $easyzoom = $('.easyzoom').easyZoom();
     });
     
@@ -972,7 +978,7 @@
         Quick view Slick Carousel
     -----------------------------------*/
 
-    $(document).on('vue-loaded', function () {
+    $(document).on('product-detail-loaded', function () {
         $('.pro-dec-big-img-slider').slick({
             slidesToShow: 1,
             slidesToScroll: 1,
@@ -987,7 +993,7 @@
         Product details slider active
     -----------------------------------*/
 
-    $(document).on('vue-loaded', function () {
+    $(document).on('product-detail-loaded', function () {
         $('.product-dec-slider').slick({
             slidesToShow: 4,
             slidesToScroll: 1,
@@ -1018,7 +1024,7 @@
         Product details slider 2 active
     -----------------------------------*/
 
-    $(document).on('vue-loaded', function () {
+    $(document).on('product-detail-loaded', function () {
         $('.product-dec-slider-2').slick({
             slidesToShow: 4,
             slidesToScroll: 1,
@@ -1045,7 +1051,7 @@
         });
     });
 
-    $(document).on('vue-loaded', function () {
+    $(document).on('product-detail-loaded', function () {
         /* Product details sidebar active */
         $('.pro-details-sidebar-active').owlCarousel({
             loop: true,

@@ -152,7 +152,7 @@ namespace RMLXCast.Web.Services.ProductImagesService
 
                 await loadedImage.SaveAsJpegAsync(fileStream, new JpegEncoder()
                 {
-                    Quality = 50
+                    Quality = 75
                 }); 
             }
         }
