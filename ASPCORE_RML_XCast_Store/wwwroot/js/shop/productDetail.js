@@ -37,8 +37,10 @@ const app = createApp({
                       
                         document.getElementById('updateCartBtn').click();
                         // TODO: OPEN A SIDEBAR CART
-
+                       
                         alert('Товар добавлен в корзину!');
+
+                        document.getElementById('cartSidebarToggle').click();
                     }
                     else if (res.status == 400) {
                         alert('Что-то пошло не так при добавлении товара в корзину!');

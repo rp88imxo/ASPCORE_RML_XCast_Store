@@ -1,11 +1,11 @@
 ﻿<!-- mini cart start -->
 <div class="sidebar-cart-active">
-    <div class="sidebar-cart-all">
+    <div class="sidebar-cart-all" id="sidebarCart">
         <button hidden id="updateCartBtn" @@click="getCart"></button>
         <a class="cart-close" href="#"><i class="dlicon ui-1_simple-remove"></i></a>
-        <div class="cart-content" id="sidebarCart">
-            <h3>Shopping Cart</h3>
-            <ul>
+        <div class="cart-content">
+            <h3>Корзина товаров</h3>
+            <ul v-if="haveAnyProducts">
                 <li v-for="(cartProduct, index) in cartProducts">
                     <div class="cart-img">
                         @* <a href="#"><img src="assets/images/cart/cart-1.jpg" alt=""></a>*@
@@ -19,12 +19,17 @@
                     </div>
                 </li>
             </ul>
-            <div class="cart-total">
+            <div class="cart-total" v-if="haveAnyProducts">
                 <h4>Итоговая цена: <span>{{endPriceComputed}}</span></h4>
             </div>
-            <div class="cart-checkout-btn">
+
+            <div class="cart-checkout-btn" v-if="haveAnyProducts">
                 <a class="btn-hover cart-btn-style" asp-action="Cart" asp-controller="Shop">Корзина</a>
                 <a class="no-mrg btn-hover cart-btn-style" asp-action="Checkout" asp-controller="Shop">Оформить заказ</a>
+            </div>
+
+            <div class="cart-total" v-if="!haveAnyProducts">
+                <h4>Ваша корзина пуста!</h4>
             </div>
         </div>
     </div>

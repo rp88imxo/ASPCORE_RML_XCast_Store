@@ -226,9 +226,9 @@ namespace RMLXCast.Web.Controllers
                 return RedirectToAction("Products", "Shop");
             }
 
-            // TODO: Create an Order
-
             await orderService.CreateOrderAsync(products, cartProducts, user, address);
+
+            cartService.ClearCart(HttpContext.Session);
 
             return View("OrderPlaced", model);
         }
