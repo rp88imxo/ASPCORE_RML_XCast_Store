@@ -1,4 +1,5 @@
-﻿using RMLXCast.Core.Domain.Cart;
+﻿using Microsoft.EntityFrameworkCore;
+using RMLXCast.Core.Domain.Cart;
 using RMLXCast.Core.Domain.Catalog;
 using RMLXCast.Core.Domain.Orders;
 using RMLXCast.Core.Domain.ShippmentAddress;
@@ -19,6 +20,15 @@ namespace RMLXCast.Services.Orders.OrderService
         public OrderService(ApplicationDbContext applicationDbContext)
         {
             this.applicationDbContext = applicationDbContext;
+        }
+
+        public async Task<IList<Order>> GetAllOrdersForUserAsync(ApplicationUser user)
+        {
+            var result = await applicationDbContext.Orders
+                  .Where(x => x.ApplicationUserId == user.Id)
+                  .ToListAsync();
+
+            return result;
         }
 
         public async Task CreateOrderAsync(IEnumerable<Product> products, IEnumerable<CartProduct> cartProducts, ApplicationUser applicationUser, Address address)
@@ -46,14 +56,29 @@ namespace RMLXCast.Services.Orders.OrderService
                             Product = product,
                             Quantity = cartProduct.Id
                         });
+
                     }
                 }
             }
 
             order.OrderItems = orderedItems;
 
+            order.TotalPrice = CalculateTotalOrderPrice(order);
+
             await applicationDbContext.Orders.AddAsync(order);
             await applicationDbContext.SaveChangesAsync();
+        }
+
+        private decimal CalculateTotalOrderPrice(Order order)
+        {
+            var sum = 0m;
+            foreach (var item in order.OrderItems)
+            {
+                var product = item.Product;
+                sum += product!.Price * item.Quantity;
+            }
+
+            return sum;
         }
     }
 }

@@ -24,6 +24,8 @@ namespace RMLXCast.Core.Domain.Orders
 
         public DateTime CreatedOnUtc { get; set; }
 
+        public decimal TotalPrice { get; set; }
+
         public IEnumerable<OrderItem> OrderItems { get; set; }
     }
 }

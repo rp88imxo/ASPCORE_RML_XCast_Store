@@ -9,12 +9,15 @@ using RMLXCast.Services.Catalog;
 using RMLXCast.Services.Catalog.Category;
 using RMLXCast.Services.Catalog.Stocks;
 using RMLXCast.Services.Catalog.User;
+using RMLXCast.Services.Orders.Order_Status_Formatters;
 using RMLXCast.Services.Orders.OrderService;
+using RMLXCast.Services.Price.Price_Formatters;
 using RMLXCast.Web.Initializers;
 using RMLXCast.Web.Services.Cart;
 using RMLXCast.Web.Services.ProductImagesService;
 using RMLXCast.Web.ViewModelsFactories.CartFactory;
 using RMLXCast.Web.ViewModelsFactories.CheckoutFactory;
+using RMLXCast.Web.ViewModelsFactories.CustomerAccountFactory;
 using RMLXCast.Web.ViewModelsFactories.ProductCategoryFactory;
 using RMLXCast.Web.ViewModelsFactories.ProductFactory;
 using RMLXCast.Web.ViewModelsFactories.RolesFactory;
@@ -76,6 +79,9 @@ namespace ASPCORE_RML_XCast_Store
             builder.Services.AddScoped<ICheckoutViewModelFactory, CheckoutViewModelFactory>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IAddressService, AddressService>();
+            builder.Services.AddScoped<IPriceFormatter, RussianPriceFormatter>();
+            builder.Services.AddScoped<IOrderStatusFormatter, OrderStatusFormatter>();
+            builder.Services.AddScoped<ICustomerAccountViewModelFactory, CustomerAccountViewModelFactory>();
 
             // -----CUSTOM SERVICES-----
 

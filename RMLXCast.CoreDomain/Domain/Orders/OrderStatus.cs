@@ -11,12 +11,17 @@ namespace RMLXCast.Core.Domain.Orders
         /// <summary>
         /// Pending
         /// </summary>
-        Pending = 10,
+        Pending = 10, // Wait for Payment
 
         /// <summary>
         /// Processing
         /// </summary>
-        Processing = 20,
+        Processing = 20, // Payed for send
+
+        /// <summary>
+        /// Processing
+        /// </summary>
+        Sent = 25, // Sent
 
         /// <summary>
         /// Complete
