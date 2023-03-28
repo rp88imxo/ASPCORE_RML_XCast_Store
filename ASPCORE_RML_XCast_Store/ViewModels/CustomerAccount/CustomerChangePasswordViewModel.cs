@@ -4,14 +4,16 @@ namespace RMLXCast.Web.ViewModels.CustomerAccount
 {
     public class CustomerChangePasswordViewModel
     {
-        [Required]
-        public string CurrentPassword { get; set; }
+        [Required(ErrorMessage ="{0} необходим к заполнению")]
+        [Display(Name ="Текущий пароль")]
+        public string CurrentPassword { get; set; } = string.Empty;
 
         [Required]
         [Compare("NewPasswordRepeat", ErrorMessage = "Пароли не совпадают!")]
-        public string NewPassword { get; set; }
+        public string NewPassword { get; set; } = string.Empty;
 
         [Required]
-        public string NewPasswordRepeat { get; set; }
+        [Compare("NewPassword", ErrorMessage = "Пароли не совпадают!")]
+        public string NewPasswordRepeat { get; set; } = string.Empty;
     }
 }

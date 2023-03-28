@@ -10,7 +10,7 @@ namespace RMLXCast.Services.Price.Price_Formatters
     {
         public string GetFormattedPrice(decimal price)
         {
-            return $"{price} ₽";
+            return string.Format("{0:G0} ₽", price);
         }
     }
 }

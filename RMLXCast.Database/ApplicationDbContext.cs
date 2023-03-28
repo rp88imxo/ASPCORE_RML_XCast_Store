@@ -38,6 +38,10 @@ namespace RMLXCast.Database
                     .Property(x => x.Price)
                     .HasColumnType("decimal(18,4)");
 
+            builder.Entity<Order>()
+                .Property(x => x.TotalPrice)
+                .HasColumnType("decimal(18,4)");
+
             builder.Entity<ProductCategory>()
                 .HasData(new ProductCategory
                 {

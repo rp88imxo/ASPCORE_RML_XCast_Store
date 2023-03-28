@@ -54,7 +54,7 @@ namespace RMLXCast.Services.Orders.OrderService
                         {
                             Order = order,
                             Product = product,
-                            Quantity = cartProduct.Id
+                            Quantity = cartProduct.Amount
                         });
 
                     }
