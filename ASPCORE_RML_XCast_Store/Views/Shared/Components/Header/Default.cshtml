@@ -56,7 +56,7 @@
                                         }
                             else
                             {
-                                <li><a asp-action="Login" asp-controller="Account">Авторизация</a></li>
+                                <li><a asp-action="Login" asp-controller="Account">Вход</a></li>
                                 <li><a asp-action="Register" asp-controller="Account">Регистрация</a></li>
                             }
                                     @if (isAdmin)
@@ -64,8 +64,8 @@
                                         <li><a asp-action="Dashboard" asp-controller="Admin">Панель админа</a></li>
                                     }
 
-                            <li><a asp-action="Register" asp-controller="Account">Примеры работ и отзывы</a></li>
-                            <li><a asp-action="Register" asp-controller="Account">Контактные данные</a></li>
+                            <li><a asp-action="About" asp-controller="Shop">Примеры работ и отзывы</a></li>
+                            <li><a asp-action="Callback" asp-controller="Shop">Контактные данные</a></li>
                         </ul>
                             </nav>
                         </div>

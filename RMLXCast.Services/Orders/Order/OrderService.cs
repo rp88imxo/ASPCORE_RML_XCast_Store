@@ -22,6 +22,28 @@ namespace RMLXCast.Services.Orders.OrderService
             this.applicationDbContext = applicationDbContext;
         }
 
+        public async Task<IList<Order>> GetPagedOrdersAsync(int pageValue, int defaultPageSize, bool includeOrderItems)
+        {
+            var query = applicationDbContext.Orders.AsQueryable();
+            if (includeOrderItems)
+            {
+                query = query.Include(x => x.OrderItems);
+            }
+
+            var result = await query
+                .Include(x => x.ApplicationUser)
+                .Skip((pageValue - 1) * defaultPageSize)
+                .Take(defaultPageSize)
+                .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<int> GetTotalOrdersCountAsync()
+        {
+            return await applicationDbContext.Orders.CountAsync();
+        }
+
         public async Task<IList<Order>> GetAllOrdersForUserAsync(ApplicationUser user)
         {
             var result = await applicationDbContext.Orders

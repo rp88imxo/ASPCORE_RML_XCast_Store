@@ -1,6 +1,21 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity;
+@using RMLXCast.Core.Domain.Role;
+@using RMLXCast.Core.Domain.User;
+
+@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+@inject RoleManager<ApplicationUserRole> roleManager
+
+
 @{
     ViewBag.Title = ViewBag.Title ?? "X-Cast Панель Управления";
+
+    var user = await userManager.GetUserAsync(Context.User);
+    var userFirstName = user?.FirstName ?? "underfined";
+    var userLastName = user?.LastName ?? "underfined";
+
+    var roles = await userManager.GetRolesAsync(user!);
+    var displayRole = roles.FirstOrDefault() ?? "underfined";
 }
 
 <!DOCTYPE html>
@@ -216,15 +231,15 @@
                                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                                 <div class="drop-heading">
                                                     <div class="text-center">
-                                                        <h5 class="text-dark mb-0 fs-14 fw-semibold">Percy Kewshun</h5>
-                                                        <small class="text-muted">Senior Admin</small>
+                                                        <h5 class="text-dark mb-0 fs-14 fw-semibold">@userFirstName @userLastName</h5>
+                                                        <small class="text-muted">@displayRole</small>
                                                     </div>
                                                 </div>
                                                 <div class="dropdown-divider m-0"></div>
-                                                <a class="dropdown-item" href="profile.html">
+                                                @*<a class="dropdown-item" href="profile.html">
                                                     <i class="dropdown-icon fe fe-user"></i> Profile
-                                                </a>
-                                                <a class="dropdown-item" href="login.html">
+                                                </a>*@
+                                                <a class="dropdown-item">
                                                     <i class="dropdown-icon fe fe-alert-circle"></i> Sign out
                                                 </a>
                                             </div>
@@ -293,7 +308,7 @@
                                 <h3>Управление заказами</h3>
                             </li>
                             <li class="slide">
-                                <a class="side-menu__item has-link" data-bs-toggle="slide" asp-action="Orders" asp-controller="AdminOrders">
+                                <a class="side-menu__item has-link" data-bs-toggle="slide" asp-action="Orders" asp-controller="Admin">
                                     <i class="side-menu__icon fe fe-package"></i><span class="side-menu__label">Заказы</span>
                                 </a>
                             </li>

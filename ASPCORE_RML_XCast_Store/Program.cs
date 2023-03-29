@@ -18,6 +18,7 @@ using RMLXCast.Web.Services.ProductImagesService;
 using RMLXCast.Web.ViewModelsFactories.CartFactory;
 using RMLXCast.Web.ViewModelsFactories.CheckoutFactory;
 using RMLXCast.Web.ViewModelsFactories.CustomerAccountFactory;
+using RMLXCast.Web.ViewModelsFactories.OrderFactory;
 using RMLXCast.Web.ViewModelsFactories.ProductCategoryFactory;
 using RMLXCast.Web.ViewModelsFactories.ProductFactory;
 using RMLXCast.Web.ViewModelsFactories.RolesFactory;
@@ -82,6 +83,7 @@ namespace ASPCORE_RML_XCast_Store
             builder.Services.AddScoped<IPriceFormatter, RussianPriceFormatter>();
             builder.Services.AddScoped<IOrderStatusFormatter, OrderStatusFormatter>();
             builder.Services.AddScoped<ICustomerAccountViewModelFactory, CustomerAccountViewModelFactory>();
+            builder.Services.AddScoped<IAdminOrderViewModelFactory, AdminOrderViewModelFactory>();
 
             // -----CUSTOM SERVICES-----
 

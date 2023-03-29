@@ -10,5 +10,7 @@ namespace RMLXCast.Services.Orders.OrderService
     {
         Task CreateOrderAsync(IEnumerable<Product> products, IEnumerable<CartProduct> cartProducts, ApplicationUser applicationUser, Address address);
         Task<IList<Order>> GetAllOrdersForUserAsync(ApplicationUser user);
+        Task<IList<Order>> GetPagedOrdersAsync(int pageValue, int defaultPageSize, bool includeOrderItems);
+        Task<int> GetTotalOrdersCountAsync();
     }
 }
