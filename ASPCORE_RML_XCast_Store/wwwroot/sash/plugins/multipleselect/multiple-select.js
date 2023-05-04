@@ -731,7 +731,7 @@
         filter: false,
         width: undefined,
         dropWidth: undefined,
-        maxHeight: 250,
+        maxHeight: 150,
         container: null,
         position: 'bottom',
         keepOpen: false,
