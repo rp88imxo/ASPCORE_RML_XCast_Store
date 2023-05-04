@@ -34,6 +34,7 @@ namespace RMLXCast.Database
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
             builder.Entity<Product>()
                     .Property(x => x.Price)
                     .HasColumnType("decimal(18,4)");

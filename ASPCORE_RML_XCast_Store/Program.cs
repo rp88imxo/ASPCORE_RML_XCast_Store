@@ -49,6 +49,7 @@ namespace ASPCORE_RML_XCast_Store
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+
             // Add services to the container.
             builder.Services
                 .AddControllersWithViews()
@@ -90,7 +91,14 @@ namespace ASPCORE_RML_XCast_Store
 
             var app = builder.Build();
 
+
             // -----CUSTOM INITIALIZERS-----
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                db.Database.Migrate();
+            }
 
             await UserInitializer.InitializeAsync(app.Services);
             
