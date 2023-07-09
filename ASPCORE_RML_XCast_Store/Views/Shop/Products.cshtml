@@ -14,7 +14,7 @@
     pagedListOptions.LinkToPreviousPageFormat = "Предыдущая";
 }
 
-<div class="breadcrumb-area section-padding-1 breadcrumb-bg-1 breadcrumb-ptb-2">
+@*<div class="breadcrumb-area section-padding-1 breadcrumb-bg-1 breadcrumb-ptb-2">
     <div class="container-fluid">
         <div class="breadcrumb-content text-center">
             <div class="breadcrumb-title">
@@ -22,7 +22,46 @@
             </div>
         </div>
     </div>
+</div>*@
+
+<div class="container-fluid">
+    <div class="row align-items-center" style="border-left-width: 0px;border-left-style: solid;padding-left: 125px;padding-right: 125px;">
+        @*<div class="col-xl-3 col-lg-3">
+        <div class="logo logo-width">
+        <a href="index.html">
+        <img src="~/toro/images/logo/logo.png" alt="logo">
+        </a>
+        </div>
+        </div>*@
+        <div class="col-xl-12 col-lg-12">
+            <div class="search-content-2 search-content-2-mrg">
+                <form class="search-form" asp-action="Products" asp-controller="Shop">
+                    <input type="text" placeholder="Поиск..." name="searchString">
+                    <button class="button-search"><i class="dlicon ui-1_zoom"></i></button>
+                </form>
+            </div>
+        </div>
+        @* <div class="col-xl-3 col-lg-3">
+        <div class="header-right-wrap header-right-flex">
+        <div class="same-style same-style-font-inc header-wishlist">
+        <a href="wishlist.html"><i class="fa fa-heart-o"></i></a>
+        </div>
+        <div class="same-style same-style-font-inc cart-wrap">
+        <a href="#" class="cart-active">
+        <i class="dlicon shopping_bag-20"></i>
+        <span class="count-style">02</span>
+        </a>
+        </div>
+        <div class="same-style same-style-font-inc header-off-canvas">
+        <a class="header-aside-button" href="#">
+        <i class="dlicon ui-3_menu-left"></i>
+        </a>
+        </div>
+        </div>
+        </div>*@
+    </div>
 </div>
+
 
 @*<div class="breadcrumb-area border-top-3 section-padding-1 breadcrumb-ptb-3">
 </div>*@
@@ -35,15 +74,15 @@
                     <div class="shop-top-bar">
                         <div class="shop-top-bar-left">
                             @*<div class="shop-top-show">
-                                <span>Showing 1–12 of 39 results</span>
+                            <span>Showing 1–12 of 39 results</span>
                             </div>*@
                             @*<div class="shop-page-list">
-                                <ul>
-                                    <li>Show</li>
-                                    <li class="active"><a href="#">12</a></li>
-                                    <li><a href="#">15</a></li>
-                                    <li><a href="#">30</a></li>
-                                </ul>
+                            <ul>
+                            <li>Show</li>
+                            <li class="active"><a href="#">12</a></li>
+                            <li><a href="#">15</a></li>
+                            <li><a href="#">30</a></li>
+                            </ul>
                             </div>*@
                         </div>
                         <div class="shop-top-bar-right">
@@ -51,19 +90,19 @@
                                 <a href="#shop-1" class="active" data-bs-toggle="tab"><i class="dlicon ui-2_grid-45"></i></a>
                                 <a href="#shop-2" data-bs-toggle="tab"><i class="dlicon design_bullet-list-69"></i></a>
                             </div>
-                           @* <div class="shop-filter ml-50">
-                                <a class="shop-filter-active" href="#">Filters <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></a>
+                            @* <div class="shop-filter ml-50">
+                            <a class="shop-filter-active" href="#">Filters <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></a>
                             </div>*@
                             @*<div class="shop-short-by ml-50">
-                                <span>Sort by <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></span>
-                                <ul>
-                                    <li class="active"><a href="#">Default sorting</a></li>
-                                    <li><a href="#">Sort by popularity</a></li>
-                                    <li><a href="#">Sort by average rating</a></li>
-                                    <li><a href="#">Sort by latest</a></li>
-                                    <li><a href="#">Sort by price: low to high</a></li>
-                                    <li><a href="#">Sort by price: high to low</a></li>
-                                </ul>
+                            <span>Sort by <i class="fa fa-angle-down angle-down"></i> <i class="fa fa-angle-up angle-up"></i></span>
+                            <ul>
+                            <li class="active"><a href="#">Default sorting</a></li>
+                            <li><a href="#">Sort by popularity</a></li>
+                            <li><a href="#">Sort by average rating</a></li>
+                            <li><a href="#">Sort by latest</a></li>
+                            <li><a href="#">Sort by price: low to high</a></li>
+                            <li><a href="#">Sort by price: high to low</a></li>
+                            </ul>
                             </div>*@
                         </div>
                     </div>
@@ -102,7 +141,7 @@
                         <div id="shop-2" class="tab-pane">
 
                             @foreach (var product in Model.viewShopProductViewModels)
-                                {
+                            {
                                 <div class="shop-list-wrap mb-70">
                                     <div class="row">
                                         <div class="custom-col-32-shop">
@@ -136,19 +175,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                }
+                            }
                         </div>
                         @if (Model.viewShopProductViewModels.Count > 0)
                         {
-                            <pager class="pager-container" list="@Model.viewShopProductViewModels" options="@pagedListOptions" asp-action="Products" asp-controller="Shop" asp-route-searchString="@Model.searchString" asp-route-categoryId="@Model.CategoryId"/>
+                            <pager class="pager-container" list="@Model.viewShopProductViewModels" options="@pagedListOptions" asp-action="Products" asp-controller="Shop" asp-route-searchString="@Model.searchString" asp-route-categoryId="@Model.CategoryId" />
                         }
 
                         @*<div class="pro-pagination-style text-center">
-                            <ul>
-                                <li><a class="active" href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#"><i class="dlicon arrows-1_tail-right"></i></a></li>
-                            </ul>
+                        <ul>
+                        <li><a class="active" href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#"><i class="dlicon arrows-1_tail-right"></i></a></li>
+                        </ul>
                         </div>*@
                     </div>
                     <!-- MAIN PRODUCTS CONTENT END-->
@@ -160,16 +199,16 @@
                     @await Component.InvokeAsync("ProductCategories", Model.shopProductCategoryViewModels)
 
                     @*<div class="sidebar-widget mb-70">
-                        <h4 class="pro-sidebar-title">Filter by price </h4>
-                        <div class="price-filter mt-60">
-                            <div id="slider-range"></div>
-                            <div class="price-slider-amount">
-                                <div class="label-input">
-                                    <span>Price: </span><input type="text" id="amount" name="price" placeholder="Add Your Price" />
-                                </div>
-                                <button type="button">Filter</button>
-                            </div>
-                        </div>
+                    <h4 class="pro-sidebar-title">Filter by price </h4>
+                    <div class="price-filter mt-60">
+                    <div id="slider-range"></div>
+                    <div class="price-slider-amount">
+                    <div class="label-input">
+                    <span>Price: </span><input type="text" id="amount" name="price" placeholder="Add Your Price" />
+                    </div>
+                    <button type="button">Filter</button>
+                    </div>
+                    </div>
                     </div>*@
 
                 </div>
